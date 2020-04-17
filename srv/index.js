@@ -17,7 +17,7 @@ const port = process.env.PORT || 4004;
     path: "v2",
     target: "http://localhost:8080",
     services: {
-      "/Downtimes": "DowntimeService"
+      "<odata-v4-service-path>": "<qualified.DowntimeService>"
     }
   }));
 

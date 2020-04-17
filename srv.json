@@ -1,0 +1,216 @@
+{
+  "definitions": {
+    "CockpitService": {
+      "kind": "service"
+    },
+    "CockpitService.Notifications": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Notification"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ModuleId": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "NotificationId": {
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "NotificationTypeId": {
+          "type": "cds.String",
+          "length": 2
+        },
+        "NotificationShortText": {
+          "type": "cds.String",
+          "length": 40
+        },
+        "NotificationFormId": {
+          "type": "cds.String",
+          "length": 2
+        },
+        "TerminationId": {
+          "type": "cds.String",
+          "length": 2
+        },
+        "TerminationName": {
+          "type": "cds.String",
+          "length": 30
+        },
+        "ContractId": {
+          "type": "cds.String",
+          "length": 13
+        },
+        "ObjectId": {
+          "type": "cds.String",
+          "length": 13
+        },
+        "PartnerId": {
+          "type": "cds.String",
+          "length": 10
+        },
+        "FunctionalLocationId": {
+          "type": "cds.String",
+          "length": 30
+        },
+        "WorkplaceId": {
+          "type": "cds.String",
+          "length": 8
+        },
+        "StatusId": {
+          "type": "cds.String",
+          "length": 1
+        },
+        "IsNotificationClosed": {
+          "type": "cds.Boolean"
+        },
+        "DesiredStartDate": {
+          "type": "cds.Timestamp"
+        },
+        "DesiredEndDate": {
+          "type": "cds.Timestamp"
+        },
+        "DueDate": {
+          "type": "cds.Timestamp"
+        }
+      },
+      "$syntax": "projection"
+    },
+    "DowntimeService": {
+      "kind": "service"
+    },
+    "DowntimeService.Downtimes": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Downtimes"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "id": {
+          "key": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 255
+        },
+        "startTime": {
+          "type": "cds.Timestamp"
+        },
+        "endTime": {
+          "type": "cds.Timestamp"
+        }
+      },
+      "$syntax": "projection"
+    },
+    "de.datatrain.Downtimes": {
+      "kind": "entity",
+      "elements": {
+        "id": {
+          "key": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 255
+        },
+        "startTime": {
+          "type": "cds.Timestamp"
+        },
+        "endTime": {
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "de.datatrain.Notification": {
+      "kind": "entity",
+      "elements": {
+        "ModuleId": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "NotificationId": {
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "NotificationTypeId": {
+          "type": "cds.String",
+          "length": 2
+        },
+        "NotificationShortText": {
+          "type": "cds.String",
+          "length": 40
+        },
+        "NotificationFormId": {
+          "type": "cds.String",
+          "length": 2
+        },
+        "TerminationId": {
+          "type": "cds.String",
+          "length": 2
+        },
+        "TerminationName": {
+          "type": "cds.String",
+          "length": 30
+        },
+        "ContractId": {
+          "type": "cds.String",
+          "length": 13
+        },
+        "ObjectId": {
+          "type": "cds.String",
+          "length": 13
+        },
+        "PartnerId": {
+          "type": "cds.String",
+          "length": 10
+        },
+        "FunctionalLocationId": {
+          "type": "cds.String",
+          "length": 30
+        },
+        "WorkplaceId": {
+          "type": "cds.String",
+          "length": 8
+        },
+        "StatusId": {
+          "type": "cds.String",
+          "length": 1
+        },
+        "IsNotificationClosed": {
+          "type": "cds.Boolean"
+        },
+        "DesiredStartDate": {
+          "type": "cds.Timestamp"
+        },
+        "DesiredEndDate": {
+          "type": "cds.Timestamp"
+        },
+        "DueDate": {
+          "type": "cds.Timestamp"
+        }
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v1.24.4"
+  },
+  "$version": "1.0"
+}

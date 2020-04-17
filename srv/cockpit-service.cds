@@ -1,5 +1,5 @@
-using de.datatrain as db from '../db/data-model';
+using de.datatrain as db from '../db/data-model-cockpit';
 
 service CockpitService {
-    @readonly entity Notifications as projection on db.Notification;
+    entity Notifications as projection on db.Notification;
 }

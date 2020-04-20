@@ -1,0 +1,7 @@
+---
+applications:
+- name: dtcloud
+  path: srv/target/cockpitcap-exec.jar
+  random-route: true
+  services:
+  - datatrain-hana

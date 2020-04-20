@@ -2,6 +2,7 @@
 
 const express = require("express");
 const http = require("http");
+const xsenv = require('@sap/xsenv');
 
 const proxy = require("@sap/cds-odata-v2-adapter-proxy");
 

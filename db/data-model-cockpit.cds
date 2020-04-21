@@ -1,3 +1,5 @@
+using {SAddress} from '../db/data-model-custom-types';
+
 namespace de.datatrain;
 
 entity Notification {
@@ -36,8 +38,4 @@ entity Object {
         IsBuilding           : Boolean;
         IsProperty           : Boolean;
         SAddress             : SAddress;
-}
-
-define type SAddress {
-    Street : String(60);
 }

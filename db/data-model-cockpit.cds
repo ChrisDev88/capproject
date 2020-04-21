@@ -1,4 +1,7 @@
-using {SAddress} from '../db/data-model-custom-types';
+using {
+    SAddress,
+    SPosition
+} from '../db/data-model-custom-types';
 
 namespace de.datatrain;
 
@@ -14,7 +17,7 @@ entity Notification {
         ObjectId              : String(13);
         PartnerId             : String(10);
         FunctionalLocationId  : String(30);
-        WorkplaceId           : String(8) not null;
+        WorkplaceId           : String(8);
         StatusId              : String(1);
         IsNotificationClosed  : Boolean;
         DesiredStartDate      : Timestamp;
@@ -38,4 +41,5 @@ entity Object {
         IsBuilding           : Boolean;
         IsProperty           : Boolean;
         SAddress             : SAddress;
+        SPosition            : SPosition
 }

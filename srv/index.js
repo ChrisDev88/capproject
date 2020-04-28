@@ -16,7 +16,7 @@ const port = process.env.PORT || 4004;
   process.env.XS_APP_LOG_LEVEL = "warning";
   app.use(proxy({
     path: "v2",
-    target: "http://localhost:8080",
+    target: "https://dtcloud-lean-ostrich-sc.cfapps.eu10.hana.ondemand.com",
     services: {
       "/odata/v4/": "DowntimeService",
       "/odata/v4/": "CockpitService"

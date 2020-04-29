@@ -19,6 +19,8 @@ modules:
   - name: cockpitcap-db
     type: hdb
     path: db
+    build-parameters:
+      ignore: ["node_modules/"]
     parameters:
       memory: 256M
       disk-quota: 256M
@@ -59,6 +61,9 @@ modules:
           srv_api_url: ~{url}
 resources:
   - name: cockpitcap-db-hdi-container
+    parameters:
+      service: hanatrial
+      service-plan: hdi-shared
     type: com.sap.xs.hdi-container
     properties:
       hdi-container-name: ${service-name}

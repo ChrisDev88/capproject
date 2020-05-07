@@ -27,7 +27,7 @@ modules:
     requires:
       - name: cockpitcap-db-hdi-container
   # ---------------- SERVER MODULE ----------------------
-  - name: cockpitcap-srv
+  - name: cockpitcap
     type: java
     path: srv
     properties:
@@ -43,9 +43,9 @@ modules:
     requires:
       - name: cockpitcap-db-hdi-container
   # ---------------- OData V2 PROXY MODULE ----------------------
-  - name: cockpitcap-srv-proxy
+  - name: cockpitcapv2
     type: nodejs
-    path: srv-proxy
+    path: odatav2-proxy
     build-parameters:
       ignore: ["node_modules/"]
     parameters:

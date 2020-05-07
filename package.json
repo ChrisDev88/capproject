@@ -8,7 +8,7 @@
     "setup": "npm install && npm run build && npm run deploy",
     "build": "npm run build:cds && npm run build:copy",
     "build:cds": "cds build/all --clean",
-    "build:copy": "copyfiles -f srv/src/main/resources/edmx/csn.json srv-proxy/gen/",
+    "build:copy": "copyfiles -f srv/src/main/resources/edmx/csn.json odatav2-proxy/gen/",
     "build:xs-security": "cds compile srv/ --to xsuaa  > xs-security.json",
     "build:deploy:cf": "npm run build:cf && npm run deploy:cf",
     "build:cf": "mbt build -p cf",
@@ -18,7 +18,7 @@
     "start": "mvn spring-boot:run",
     "start:hana": "mvn spring-boot:run -Dspring-boot.run.profiles=cloud",
     "start:sqlite": "mvn spring-boot:run -Dspring-boot.run.profiles=sqlite",
-    "startv2": "node srv-proxy/index"
+    "startv2": "node odatav2-proxy/index"
   },
   "dependencies": {
     "@sap/cds": "^3.33.1",

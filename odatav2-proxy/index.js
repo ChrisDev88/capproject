@@ -9,7 +9,7 @@ const proxy = require("@sap/cds-odata-v2-adapter-proxy");
 const host = "0.0.0.0";
 const port = process.env.PORT || 4004;
 const target = process.env.srv_api_url || "http://localhost:8080";
-const model = process.env.srv_api_url ? "./gen/csn.json" : "./srv-proxy/gen/csn.json";
+const model = process.env.srv_api_url ? "./gen/csn.json" : "./odatav2-proxy/gen/csn.json";
 
 (async () => {
   const app = express();

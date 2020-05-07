@@ -16,7 +16,9 @@
     "deploy": "cds deploy",
     "deploy:cf": "cf deploy mta_archives/cockpitcap_1.0.0.mtar",
     "start": "mvn spring-boot:run",
-    "start:cloud": "mvn spring-boot:run -Dspring-boot.run.profiles=cloud"
+    "start:hana": "mvn spring-boot:run -Dspring-boot.run.profiles=cloud",
+    "start:sqlite": "mvn spring-boot:run -Dspring-boot.run.profiles=sqlite",
+    "startv2": "node srv-proxy/index"
   },
   "dependencies": {
     "@sap/cds": "^3.33.1",

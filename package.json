@@ -44,6 +44,9 @@
         "[production]": {
           "kind": "hana"
         }
+      },
+      "uaa": {
+        "kind": "xsuaa"
       }
     },
     "odata": {

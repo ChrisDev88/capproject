@@ -5,7 +5,7 @@ using {
     Country
 } from '@sap/cds/common';
 
-define type SAddress {
+aspect SAddress {
     Street       : String(60);
     HouseNumber1 : String(10);
     HouseNumber2 : String(10);
@@ -15,7 +15,7 @@ define type SAddress {
     Region       : String(3);
 }
 
-define type SPosition {
+aspect SPosition {
     FloorId             : String(3);
     FloorName           : String(15);
     LocationOnFloorId   : String(2);

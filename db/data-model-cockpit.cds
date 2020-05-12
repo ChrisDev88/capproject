@@ -1,11 +1,12 @@
+namespace de.datatrain;
+
 using {
     SAddress,
     SPosition
 } from '../db/data-model-custom-types';
 
-namespace de.datatrain;
 
-entity Notification {
+entity Notifications {
     key ModuleId              : String(2);
     key NotificationId        : String(12);
         NotificationTypeId    : String(2);
@@ -14,7 +15,6 @@ entity Notification {
         TerminationId         : String(2);
         TerminationName       : String(30);
         ContractId            : String(13);
-        ObjectId              : String(13);
         PartnerId             : String(10);
         FunctionalLocationId  : String(30);
         WorkplaceId           : String(8);
@@ -24,9 +24,10 @@ entity Notification {
         DesiredEndDate        : Timestamp;
         DueDate               : Timestamp;
         UpdatedAtDate         : Timestamp;
+        Object                : Association to Objects; 
 }
 
-entity Object {
+entity Objects {
     key ObjectId             : String(13);
         ObjectType           : String(10);
         ObjectTypeName       : String(20);
@@ -41,5 +42,6 @@ entity Object {
         IsBuilding           : Boolean;
         IsProperty           : Boolean;
         SAddress             : SAddress;
-        SPosition            : SPosition
+        SPosition            : SPosition;
+        notifications        : Association to  many Notifications on notifications.Object = $self;
 }

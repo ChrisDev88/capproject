@@ -1,8 +1,8 @@
 using de.datatrain as db from '../db/data-model-cockpit';
 
 service CockpitService @(requires : 'authenticated-user') {
-    entity Notifications as projection on db.Notification;
-    entity Object        as projection on db.Object;
+    entity Notifications as projection on db.Notifications;
+    entity Objects       as projection on db.Objects;
 }
 
 annotate CockpitService.Notifications with @(restrict : [

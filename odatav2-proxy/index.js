@@ -22,8 +22,8 @@ const model = process.env.srv_api_url ? "./gen/csn.json" : "./odatav2-proxy/gen/
     standalone: true,
     target: target,
     services: {
-      "/odata/v4/": "DowntimeService",
-      "/odata/v4/": "CockpitService"
+      "/api/": "DowntimeService",
+      "/api/": "CockpitService"
     }
   }));
 

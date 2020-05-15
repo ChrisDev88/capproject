@@ -13,6 +13,7 @@ build-parameters:
     - builder: custom
       commands:
         - npm install
+        - cds build/all
 
 modules:
   # ---------------- DATABASE MODULE ----------------------
@@ -32,6 +33,7 @@ modules:
     path: srv
     properties:
       EXIT: 1 # required by deploy.js task to terminate
+      SPRING_PROFILES_ACTIVE: cloud
     build-parameters:
       builder: custom
       commands: [mvn clean package]

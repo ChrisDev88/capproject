@@ -10,10 +10,11 @@
     "build:cds": "cds build/all --clean",
     "build:copy": "copyfiles -f srv/src/main/resources/edmx/csn.json odatav2-proxy/gen/",
     "build:xs-security": "cds compile srv/ --to xsuaa  > xs-security.json",
+    "build:deploy": "npm run build && npm run deploy",
     "build:deploy:cf": "npm run build:cf && npm run deploy:cf",
     "build:cf": "mbt build -p cf",
     "schema": "cds compile srv --to sql > srv/src/main/resources/schema.sql",
-    "deploy": "cds deploy",
+    "deploy": "cds deploy && cds deploy --to sqlite",
     "deploy:cf": "cf deploy mta_archives/cockpitcap_1.0.0.mtar",
     "start": "mvn spring-boot:run",
     "start:hana": "mvn spring-boot:run -Dspring-boot.run.profiles=cloud",
@@ -21,8 +22,8 @@
     "startv2": "node odatav2-proxy/index"
   },
   "dependencies": {
-    "@sap/cds": "^3.33.1",
-    "hdb": "^0.17.1"
+    "@sap/cds": "^3.34.1",
+    "@sap/hana-client": "^2.4.196"
   },
   "devDependencies": {
     "sqlite3": "^4.1.1",
@@ -36,7 +37,7 @@
     },
     "requires": {
       "db": {
-        "kind": "sqlite",
+        "kind": "hana",
         "model": [
           "db",
           "srv"

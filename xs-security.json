@@ -3,17 +3,29 @@
   "tenant-mode": "dedicated",
   "scopes": [
     {
-      "name": "$XSAPPNAME.admin",
-      "description": "admin"
+      "name": "$XSAPPNAME.backend",
+      "description": "backend"
+    },
+    {
+      "name": "$XSAPPNAME.cockpit",
+      "description": "cockpit"
     }
   ],
   "attributes": [],
   "role-templates": [
     {
-      "name": "admin",
+      "name": "backend",
       "description": "generated",
       "scope-references": [
-        "$XSAPPNAME.admin"
+        "$XSAPPNAME.backend"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "cockpit",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.cockpit"
       ],
       "attribute-references": []
     }

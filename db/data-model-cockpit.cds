@@ -33,6 +33,8 @@ entity Notifications {
         // TerminationName        : String(30);
         Object                 : Association to Objects
                                      on ObjectId = Object.ObjectId;
+        Contract               : Association to Contracts
+                                     on ContractId = Contract.ContractId;
 }
 
 entity Objects : SAddress {
@@ -54,13 +56,21 @@ entity Objects : SAddress {
         TypeOfUseName        : String(4);
         IsBuilding           : Boolean;
         IsProperty           : Boolean;
+        ContractId           : String(13);
         // BuildingSectionId    : String(2);
         // BuildingSectionName  : String(15);
         Notifications        : Association to many Notifications
                                    on Notifications.Object = $self;
         Keys                 : Composition of many Keys
                                    on Keys.Object = $self;
-
+        Meters               : Composition of many Meters
+                                   on Meters.Object = $self;
+        FixturesSet          : Composition of many FixturesSet
+                                   on FixturesSet.Object = $self;
+        FixturesNew          : Composition of many FixturesNew
+                                   on FixturesNew.Object = $self;
+        Contract             : Association to Contracts
+                                   on ContractId = Contract.ContractId;
 }
 
 entity Keys : cuid {
@@ -77,10 +87,74 @@ entity Keys : cuid {
 }
 
 entity KeyNumbers : cuid {
-    NotificationId     : String(12);
+    key NotificationId     : String(12);
     KeyNumberRequired  : Integer;
     KeyNumberActual    : Integer;
     ChangeLockCylinder : Boolean;
     CorrespondingKey   : Association to Keys
                              on ID = CorrespondingKey.ID;
+}
+
+entity Meters : cuid {
+    key ObjectId           : String(13);
+    MeterId            : String(8);
+    MeterName          : String(20);
+    MeterLocation      : localized String(40);
+    MeterCondition     : String(4);
+    PixoMeterType      : String(29);
+    PixoIntegerDigits  : String(4);
+    PixoFractionDigits : String(4);
+    Object             : Association to Objects
+                             on ObjectId = Object.ObjectId;
+    MeterReadings      : Composition of many MeterReadings
+                             on MeterReadings.Meter = $self;
+}
+
+entity MeterReadings : cuid {
+    key NumeratorId      : String(8);
+    key NotificationId   : String(12);
+    MeterValue       : Decimal(20, 6);
+    MeterValueString : String(20);
+    ReadingDate      : Date;
+    IsFinished       : Boolean;
+    BookingError     : Boolean;
+    Meter            : Association to Meters
+                           on ID = Meter.ID;
+}
+
+entity FixturesSet {
+    key ObjectId              : String(13);
+    key FixtureId             : String(6);
+        AdditionalInformation : Decimal(7, 2);
+        Number                : Integer;
+        Object                : Association to Objects
+                                    on ObjectId = Object.ObjectId;
+}
+
+entity FixturesNew {
+    key ObjectId              : String(13);
+    key FixtureId             : String(6);
+        NotificationId        : String(12);
+        AdditionalInformation : Decimal(7, 2);
+        Number                : Integer;
+        IsFinished            : Boolean;
+        IsSet                 : Boolean;
+        Object                : Association to Objects
+                                    on ObjectId = Object.ObjectId;
+}
+
+
+entity Contracts {
+    key ContractId        : String(13);
+        CompanyCode       : String(4);
+        ContractNumber    : String(13);
+        ContractStartDate : Date;
+        ContractEndDate   : Date;
+        ContractType      : String(4);
+        ContractTypeName  : String(30);
+        ObjectId          : String(13);
+        Object            : Association to Objects
+                                on ObjectId = Object.ObjectId;
+        Notifications     : Association to many Notifications
+                                on Notifications.Contract = $self;
 }

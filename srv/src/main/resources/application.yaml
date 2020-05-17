@@ -4,12 +4,14 @@ spring:
 cds:
   odata-v4.endpoint.path: "/api"
   security.mock.users:
-    - name: admin
-      password: admin
+    - name: backend
+      password: backend
       roles:
-      - admin
+      - backend
     - name: user
       password: user
+      roles:
+      - cockpit
 
 ---
 spring:

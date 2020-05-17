@@ -1,6 +1,6 @@
 using de.datatrain as db from '../db/data-model-cockpit';
 
-service CockpitService @(requires : 'cockpit') {
+service BackendService @(requires : 'backend') {
     entity Notifications as projection on db.Notifications;
     entity Objects       as projection on db.Objects;
     entity Keys          as projection on db.Keys;
@@ -13,7 +13,9 @@ service CockpitService @(requires : 'cockpit') {
 }
 
 
-annotate CockpitService.Notifications with @(restrict : [{
-    grant : ['READ'],
-    to    : 'cockpit'
+annotate BackendService.Notifications with @(restrict : [{
+    grant : [
+        'WRITE'
+    ],
+    to    : 'backend'
 }, ]);

@@ -89,32 +89,34 @@ entity Objects : SAddress, managed {
 }
 
 entity Keys : cuid, managed {
-    ObjectId        : String(13);
-    KeyTypeId       : String(4);
-    KeyTypeName     : localized String(40);
-    KeyName         : String(40);
-    IsLockingSystem : Boolean;
-    Cost            : Decimal(8, 2);
-    Object          : Association to Objects
-                          on ObjectId = Object.ObjectId;
-    KeyNumbers      : Composition of many KeyNumbers
-                          on KeyNumbers.CorrespondingKey = $self;
+    key ObjectId        : String(13);
+        KeyTypeId       : String(4);
+        KeyTypeName     : String(40);
+        KeyName         : String(40);
+        IsLockingSystem : Boolean;
+        Cost            : Decimal(8, 2);
+        Object          : Association to Objects
+                              on ObjectId = Object.ObjectId;
+        KeyNumbers      : Composition of many KeyNumbers
+                              on KeyNumbers.CorrespondingKey = $self;
 }
 
 entity KeyNumbers : cuid {
+    key ObjectId           : String(13);
     key NotificationId     : String(12);
         KeyNumberRequired  : Integer;
         KeyNumberActual    : Integer;
         ChangeLockCylinder : Boolean;
         CorrespondingKey   : Association to Keys
-                                 on ID = CorrespondingKey.ID;
+                                 on  ObjectId = CorrespondingKey.ObjectId
+                                 and ID       = CorrespondingKey.ID;
 }
 
 entity Meters : cuid {
     key ObjectId           : String(13);
         MeterId            : String(8);
         MeterName          : String(20);
-        MeterLocation      : localized String(40);
+        MeterLocation      : String(40);
         MeterCondition     : String(4);
         PixoMeterType      : String(29);
         PixoIntegerDigits  : String(4);
@@ -126,6 +128,7 @@ entity Meters : cuid {
 }
 
 entity MeterReadings : cuid {
+    key ObjectId         : String(13);
     key NumeratorId      : String(8);
     key NotificationId   : String(12);
         MeterValue       : Decimal(20, 6);
@@ -134,7 +137,8 @@ entity MeterReadings : cuid {
         IsFinished       : Boolean;
         BookingError     : Boolean;
         Meter            : Association to Meters
-                               on ID = Meter.ID;
+                               on  ObjectId = Meter.ObjectId
+                               and ID       = Meter.ID;
 }
 
 entity FixturesSet {
@@ -159,7 +163,7 @@ entity FixturesNew {
 }
 
 
-entity Contracts: managed {
+entity Contracts : managed {
     key ContractId        : String(13);
         CompanyCode       : String(4);
         ContractNumber    : String(13);

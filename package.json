@@ -12,14 +12,16 @@
     "build:xs-security": "cds compile srv/ --to xsuaa  > xs-security.json",
     "build:deploy": "npm run build && npm run deploy",
     "build:deploy:cf": "npm run build:cf && npm run deploy:cf",
-    "build:cf": "mvn clean package && mbt build -p cf",
+    "build:cf": "mbt build -p cf",
     "schema": "cds compile srv --to sql > srv/src/main/resources/schema.sql",
     "deploy": "cds deploy --no-save",
     "deploy:cf": "cf deploy mta_archives/cockpitcap_1.0.0.mtar",
     "start": "mvn spring-boot:run",
     "start:hana": "mvn spring-boot:run -Dspring-boot.run.profiles=cloud",
+    "debug:hana": "mvn spring-boot:debug -Dspring-boot.run.profiles=cloud",
     "start:sqlite": "mvn spring-boot:run -Dspring-boot.run.profiles=sqlite",
-    "startv2": "node odatav2-proxy/index"
+    "startv2": "node odatav2-proxy/index",
+    "debugv2": "node --inspect odatav2-proxy/index"
   },
   "dependencies": {
     "@sap/cds": "^3.34.1",

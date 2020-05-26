@@ -1,0 +1,7379 @@
+{
+  "namespace": "de.datatrain",
+  "definitions": {
+    "BackendService": {
+      "@source": "srv/backend-service.cds",
+      "kind": "service",
+      "@requires": "backend"
+    },
+    "BackendService.Contracts": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_CONTRACTS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Contracts"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ContractId": {
+          "@cds.persistence.name": "CONTRACTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "CompanyCode": {
+          "@cds.persistence.name": "COMPANYCODE",
+          "type": "cds.String",
+          "length": 4
+        },
+        "ContractNumber": {
+          "@cds.persistence.name": "CONTRACTNUMBER",
+          "type": "cds.String",
+          "length": 13
+        },
+        "ContractStartDate": {
+          "@cds.persistence.name": "CONTRACTSTARTDATE",
+          "type": "cds.Date"
+        },
+        "ContractEndDate": {
+          "@cds.persistence.name": "CONTRACTENDDATE",
+          "type": "cds.Date"
+        },
+        "ContractType": {
+          "@cds.persistence.name": "CONTRACTTYPE",
+          "type": "cds.String",
+          "length": 4
+        },
+        "ContractTypeName": {
+          "@cds.persistence.name": "CONTRACTTYPENAME",
+          "type": "cds.String",
+          "length": 30
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "BackendService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "Notifications": {
+          "@cds.persistence.name": "NOTIFICATIONS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.Notifications",
+          "on": [
+            {
+              "ref": [
+                "Notifications",
+                "Contract"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.FixturesNew": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_FIXTURESNEW",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.FixturesNew"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "FixtureId": {
+          "@cds.persistence.name": "FIXTUREID",
+          "key": true,
+          "type": "cds.String",
+          "length": 6
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "type": "cds.String",
+          "length": 12
+        },
+        "AdditionalInformation": {
+          "@cds.persistence.name": "ADDITIONALINFORMATION",
+          "type": "cds.Decimal",
+          "precision": 7,
+          "scale": 2
+        },
+        "Number": {
+          "@cds.persistence.name": "NUMBER",
+          "type": "cds.Integer"
+        },
+        "IsFinished": {
+          "@cds.persistence.name": "ISFINISHED",
+          "type": "cds.Boolean"
+        },
+        "IsSet": {
+          "@cds.persistence.name": "ISSET",
+          "type": "cds.Boolean"
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "BackendService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.FixturesSet": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_FIXTURESSET",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.FixturesSet"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "FixtureId": {
+          "@cds.persistence.name": "FIXTUREID",
+          "key": true,
+          "type": "cds.String",
+          "length": 6
+        },
+        "AdditionalInformation": {
+          "@cds.persistence.name": "ADDITIONALINFORMATION",
+          "type": "cds.Decimal",
+          "precision": 7,
+          "scale": 2
+        },
+        "Number": {
+          "@cds.persistence.name": "NUMBER",
+          "type": "cds.Integer"
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "BackendService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.FunctionalLocationAdditions": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_FUNCTIONALLOCATIONADDITIONS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.FunctionalLocationAdditions"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "Name": {
+          "@cds.persistence.name": "NAME",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "Value": {
+          "@cds.persistence.name": "VALUE",
+          "type": "cds.String",
+          "length": 255
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "BackendService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.FunctionalLocations": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_FUNCTIONALLOCATIONS",
+      "@restrict": [
+        {
+          "grant": [
+            "WRITE"
+          ],
+          "to": "backend"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.FunctionalLocations"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "Street": {
+          "@cds.persistence.name": "STREET",
+          "type": "cds.String",
+          "length": 60
+        },
+        "HouseNumber1": {
+          "@cds.persistence.name": "HOUSENUMBER1",
+          "type": "cds.String",
+          "length": 10
+        },
+        "HouseNumber2": {
+          "@cds.persistence.name": "HOUSENUMBER2",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ZipCode": {
+          "@cds.persistence.name": "ZIPCODE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "City": {
+          "@cds.persistence.name": "CITY",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Country": {
+          "@cds.persistence.name": "COUNTRY",
+          "type": "cds.String",
+          "length": 3
+        },
+        "Region": {
+          "@cds.persistence.name": "REGION",
+          "type": "cds.String",
+          "length": 3
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationName": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONNAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationType": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONTYPE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ParentId": {
+          "@cds.persistence.name": "PARENTID",
+          "type": "cds.String",
+          "length": 30
+        },
+        "AlternativeId": {
+          "@cds.persistence.name": "ALTERNATIVEID",
+          "type": "cds.String",
+          "length": 30
+        },
+        "Latitude": {
+          "@cds.persistence.name": "LATITUDE",
+          "type": "cds.String",
+          "length": 8
+        },
+        "Longitude": {
+          "@cds.persistence.name": "LONGITUDE",
+          "type": "cds.String",
+          "length": 8
+        },
+        "BomNumber": {
+          "@cds.persistence.name": "BOMNUMBER",
+          "type": "cds.String",
+          "length": 8
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "SortId": {
+          "@cds.persistence.name": "SORTID",
+          "type": "cds.String",
+          "length": 4
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "BackendService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "Notifications": {
+          "@cds.persistence.name": "NOTIFICATIONS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.Notifications",
+          "on": [
+            {
+              "ref": [
+                "Notifications",
+                "FunctionalLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Parent": {
+          "@cds.persistence.name": "PARENT",
+          "type": "cds.Association",
+          "target": "BackendService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "ParentId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Parent",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        },
+        "Children": {
+          "@cds.persistence.name": "CHILDREN",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "Children",
+                "Parent"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Additions": {
+          "@cds.persistence.name": "ADDITIONS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.FunctionalLocationAdditions",
+          "on": [
+            {
+              "ref": [
+                "Additions",
+                "FunctionalLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Materials": {
+          "@cds.persistence.name": "MATERIALS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.Materials",
+          "on": [
+            {
+              "ref": [
+                "Materials",
+                "FunctionalLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.KeyNumbers": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_KEYNUMBERS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.KeyNumbers"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "KeyNumberRequired": {
+          "@cds.persistence.name": "KEYNUMBERREQUIRED",
+          "type": "cds.Integer"
+        },
+        "KeyNumberActual": {
+          "@cds.persistence.name": "KEYNUMBERACTUAL",
+          "type": "cds.Integer"
+        },
+        "ChangeLockCylinder": {
+          "@cds.persistence.name": "CHANGELOCKCYLINDER",
+          "type": "cds.Boolean"
+        },
+        "CorrespondingKey": {
+          "@cds.persistence.name": "CORRESPONDINGKEY",
+          "type": "cds.Association",
+          "target": "BackendService.Keys",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "CorrespondingKey",
+                "ObjectId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "CorrespondingKey",
+                "ID"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.Keys": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_KEYS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Keys"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "KeyTypeId": {
+          "@cds.persistence.name": "KEYTYPEID",
+          "type": "cds.String",
+          "length": 4
+        },
+        "KeyTypeName": {
+          "@cds.persistence.name": "KEYTYPENAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "KeyName": {
+          "@cds.persistence.name": "KEYNAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "IsLockingSystem": {
+          "@cds.persistence.name": "ISLOCKINGSYSTEM",
+          "type": "cds.Boolean"
+        },
+        "Cost": {
+          "@cds.persistence.name": "COST",
+          "type": "cds.Decimal",
+          "precision": 8,
+          "scale": 2
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "BackendService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "KeyNumbers": {
+          "@cds.persistence.name": "KEYNUMBERS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.KeyNumbers",
+          "on": [
+            {
+              "ref": [
+                "KeyNumbers",
+                "CorrespondingKey"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.MaterialConditions": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_MATERIALCONDITIONS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.MaterialConditions"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "MaterialId": {
+          "@cds.persistence.name": "MATERIALID",
+          "key": true,
+          "type": "cds.String",
+          "length": 18
+        },
+        "BomId": {
+          "@cds.persistence.name": "BOMID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "CatalogType": {
+          "@cds.persistence.name": "CATALOGTYPE",
+          "key": true,
+          "type": "cds.String",
+          "length": 1
+        },
+        "CodeGroup": {
+          "@cds.persistence.name": "CODEGROUP",
+          "key": true,
+          "type": "cds.String",
+          "length": 8
+        },
+        "Code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 4
+        },
+        "ConditionStatus": {
+          "@cds.persistence.name": "CONDITIONSTATUS",
+          "type": "cds.String",
+          "length": 1
+        },
+        "ConditionKey": {
+          "@cds.persistence.name": "CONDITIONKEY",
+          "type": "cds.String",
+          "length": 3
+        },
+        "Responsible": {
+          "@cds.persistence.name": "RESPONSIBLE",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Measurement": {
+          "@cds.persistence.name": "MEASUREMENT",
+          "type": "cds.Decimal",
+          "precision": 8,
+          "scale": 2
+        },
+        "Text": {
+          "@cds.persistence.name": "TEXT",
+          "type": "cds.String"
+        },
+        "Material": {
+          "@cds.persistence.name": "MATERIAL",
+          "type": "cds.Association",
+          "target": "BackendService.Materials",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "FunctionalLocationId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "MaterialId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "MaterialId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "BomId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "BomId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.MaterialFields": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_MATERIALFIELDS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.MaterialFields"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "MaterialId": {
+          "@cds.persistence.name": "MATERIALID",
+          "key": true,
+          "type": "cds.String",
+          "length": 18
+        },
+        "BomId": {
+          "@cds.persistence.name": "BOMID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "Fieldname": {
+          "@cds.persistence.name": "FIELDNAME",
+          "key": true,
+          "type": "cds.String",
+          "length": 30
+        },
+        "Fieldvalue": {
+          "@cds.persistence.name": "FIELDVALUE",
+          "type": "cds.String",
+          "length": 255
+        },
+        "IsChanged": {
+          "@cds.persistence.name": "ISCHANGED",
+          "type": "cds.Boolean"
+        },
+        "Material": {
+          "@cds.persistence.name": "MATERIAL",
+          "type": "cds.Association",
+          "target": "BackendService.Materials",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "FunctionalLocationId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "MaterialId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "MaterialId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "BomId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "BomId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.Materials": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_MATERIALS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Materials"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "MaterialId": {
+          "@cds.persistence.name": "MATERIALID",
+          "key": true,
+          "type": "cds.String",
+          "length": 18
+        },
+        "BomId": {
+          "@cds.persistence.name": "BOMID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "BomNumber": {
+          "@cds.persistence.name": "BOMNUMBER",
+          "type": "cds.String",
+          "length": 8
+        },
+        "BomCategory": {
+          "@cds.persistence.name": "BOMCATEGORY",
+          "type": "cds.String",
+          "length": 1
+        },
+        "BomNodeNumber": {
+          "@cds.persistence.name": "BOMNODENUMBER",
+          "type": "cds.String",
+          "length": 8
+        },
+        "BomCounterId": {
+          "@cds.persistence.name": "BOMCOUNTERID",
+          "type": "cds.String",
+          "length": 8
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "BackendService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        },
+        "MaterialFields": {
+          "@cds.persistence.name": "MATERIALFIELDS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.MaterialFields",
+          "on": [
+            {
+              "ref": [
+                "MaterialFields",
+                "Material"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Conditions": {
+          "@cds.persistence.name": "CONDITIONS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.MaterialConditions",
+          "on": [
+            {
+              "ref": [
+                "Conditions",
+                "Material"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.MeterReadings": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_METERREADINGS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.MeterReadings"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "NumeratorId": {
+          "@cds.persistence.name": "NUMERATORID",
+          "key": true,
+          "type": "cds.String",
+          "length": 8
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "MeterValue": {
+          "@cds.persistence.name": "METERVALUE",
+          "type": "cds.Decimal",
+          "precision": 20,
+          "scale": 6
+        },
+        "MeterValueString": {
+          "@cds.persistence.name": "METERVALUESTRING",
+          "type": "cds.String",
+          "length": 20
+        },
+        "ReadingDate": {
+          "@cds.persistence.name": "READINGDATE",
+          "type": "cds.Date"
+        },
+        "IsFinished": {
+          "@cds.persistence.name": "ISFINISHED",
+          "type": "cds.Boolean"
+        },
+        "BookingError": {
+          "@cds.persistence.name": "BOOKINGERROR",
+          "type": "cds.Boolean"
+        },
+        "Meter": {
+          "@cds.persistence.name": "METER",
+          "type": "cds.Association",
+          "target": "BackendService.Meters",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Meter",
+                "ObjectId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Meter",
+                "ID"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.Meters": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_METERS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Meters"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "MeterId": {
+          "@cds.persistence.name": "METERID",
+          "type": "cds.String",
+          "length": 8
+        },
+        "MeterName": {
+          "@cds.persistence.name": "METERNAME",
+          "type": "cds.String",
+          "length": 20
+        },
+        "MeterLocation": {
+          "@cds.persistence.name": "METERLOCATION",
+          "type": "cds.String",
+          "length": 40
+        },
+        "MeterCondition": {
+          "@cds.persistence.name": "METERCONDITION",
+          "type": "cds.String",
+          "length": 4
+        },
+        "PixoMeterType": {
+          "@cds.persistence.name": "PIXOMETERTYPE",
+          "type": "cds.String",
+          "length": 29
+        },
+        "PixoIntegerDigits": {
+          "@cds.persistence.name": "PIXOINTEGERDIGITS",
+          "type": "cds.String",
+          "length": 4
+        },
+        "PixoFractionDigits": {
+          "@cds.persistence.name": "PIXOFRACTIONDIGITS",
+          "type": "cds.String",
+          "length": 4
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "BackendService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "MeterReadings": {
+          "@cds.persistence.name": "METERREADINGS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.MeterReadings",
+          "on": [
+            {
+              "ref": [
+                "MeterReadings",
+                "Meter"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.Notifications": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_NOTIFICATIONS",
+      "@restrict": [
+        {
+          "grant": [
+            "WRITE"
+          ],
+          "to": "backend"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Notifications"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ModuleId": {
+          "@cds.persistence.name": "MODULEID",
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "NotificationTypeId": {
+          "@cds.persistence.name": "NOTIFICATIONTYPEID",
+          "type": "cds.String",
+          "length": 2
+        },
+        "NotificationTypeName": {
+          "@cds.persistence.name": "NOTIFICATIONTYPENAME",
+          "type": "cds.String",
+          "length": 20
+        },
+        "NotificationShortText": {
+          "@cds.persistence.name": "NOTIFICATIONSHORTTEXT",
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationName": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONNAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "DesiredStartDate": {
+          "@cds.persistence.name": "DESIREDSTARTDATE",
+          "type": "cds.Timestamp"
+        },
+        "DesiredEndDate": {
+          "@cds.persistence.name": "DESIREDENDDATE",
+          "type": "cds.Timestamp"
+        },
+        "DueDate": {
+          "@cds.persistence.name": "DUEDATE",
+          "type": "cds.Timestamp"
+        },
+        "CreatedAtDate": {
+          "@cds.persistence.name": "CREATEDATDATE",
+          "type": "cds.Timestamp"
+        },
+        "ClosedAtDate": {
+          "@cds.persistence.name": "CLOSEDATDATE",
+          "type": "cds.Timestamp"
+        },
+        "UpdatedAtDate": {
+          "@cds.persistence.name": "UPDATEDATDATE",
+          "type": "cds.Timestamp"
+        },
+        "IsNotificationClosed": {
+          "@cds.persistence.name": "ISNOTIFICATIONCLOSED",
+          "type": "cds.Boolean"
+        },
+        "VendorId": {
+          "@cds.persistence.name": "VENDORID",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "ContractId": {
+          "@cds.persistence.name": "CONTRACTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "PartnerId": {
+          "@cds.persistence.name": "PARTNERID",
+          "type": "cds.String",
+          "length": 10
+        },
+        "Workplace": {
+          "@cds.persistence.name": "WORKPLACE",
+          "type": "cds.String",
+          "length": 8
+        },
+        "NotificationFormId": {
+          "@cds.persistence.name": "NOTIFICATIONFORMID",
+          "type": "cds.String",
+          "length": 2
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "BackendService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "Contract": {
+          "@cds.persistence.name": "CONTRACT",
+          "type": "cds.Association",
+          "target": "BackendService.Contracts",
+          "on": [
+            {
+              "ref": [
+                "ContractId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Contract",
+                "ContractId"
+              ]
+            }
+          ]
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "BackendService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BackendService.Objects": {
+      "kind": "entity",
+      "@cds.persistence.name": "BACKENDSERVICE_OBJECTS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Objects"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "Street": {
+          "@cds.persistence.name": "STREET",
+          "type": "cds.String",
+          "length": 60
+        },
+        "HouseNumber1": {
+          "@cds.persistence.name": "HOUSENUMBER1",
+          "type": "cds.String",
+          "length": 10
+        },
+        "HouseNumber2": {
+          "@cds.persistence.name": "HOUSENUMBER2",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ZipCode": {
+          "@cds.persistence.name": "ZIPCODE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "City": {
+          "@cds.persistence.name": "CITY",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Country": {
+          "@cds.persistence.name": "COUNTRY",
+          "type": "cds.String",
+          "length": 3
+        },
+        "Region": {
+          "@cds.persistence.name": "REGION",
+          "type": "cds.String",
+          "length": 3
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "ObjectName": {
+          "@cds.persistence.name": "OBJECTNAME",
+          "type": "cds.String",
+          "length": 60
+        },
+        "CompanyCode": {
+          "@cds.persistence.name": "COMPANYCODE",
+          "type": "cds.String",
+          "length": 4
+        },
+        "BusinessEntity": {
+          "@cds.persistence.name": "BUSINESSENTITY",
+          "type": "cds.String",
+          "length": 8
+        },
+        "RentalObject": {
+          "@cds.persistence.name": "RENTALOBJECT",
+          "type": "cds.String",
+          "length": 8
+        },
+        "Building": {
+          "@cds.persistence.name": "BUILDING",
+          "type": "cds.String",
+          "length": 8
+        },
+        "Property": {
+          "@cds.persistence.name": "PROPERTY",
+          "type": "cds.String",
+          "length": 8
+        },
+        "ObjectType": {
+          "@cds.persistence.name": "OBJECTTYPE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ObjectTypeName": {
+          "@cds.persistence.name": "OBJECTTYPENAME",
+          "type": "cds.String",
+          "length": 20
+        },
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "type": "cds.String",
+          "length": 30
+        },
+        "FloorId": {
+          "@cds.persistence.name": "FLOORID",
+          "type": "cds.String",
+          "length": 3
+        },
+        "FloorName": {
+          "@cds.persistence.name": "FLOORNAME",
+          "type": "cds.String",
+          "length": 15
+        },
+        "LocationOnFloorId": {
+          "@cds.persistence.name": "LOCATIONONFLOORID",
+          "type": "cds.String",
+          "length": 2
+        },
+        "LocationOnFloorName": {
+          "@cds.persistence.name": "LOCATIONONFLOORNAME",
+          "type": "cds.String",
+          "length": 15
+        },
+        "TypeOfUseId": {
+          "@cds.persistence.name": "TYPEOFUSEID",
+          "type": "cds.String",
+          "length": 4
+        },
+        "TypeOfUseName": {
+          "@cds.persistence.name": "TYPEOFUSENAME",
+          "type": "cds.String",
+          "length": 4
+        },
+        "IsBuilding": {
+          "@cds.persistence.name": "ISBUILDING",
+          "type": "cds.Boolean"
+        },
+        "IsProperty": {
+          "@cds.persistence.name": "ISPROPERTY",
+          "type": "cds.Boolean"
+        },
+        "ContractId": {
+          "@cds.persistence.name": "CONTRACTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "Notifications": {
+          "@cds.persistence.name": "NOTIFICATIONS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.Notifications",
+          "on": [
+            {
+              "ref": [
+                "Notifications",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Keys": {
+          "@cds.persistence.name": "KEYS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.Keys",
+          "on": [
+            {
+              "ref": [
+                "Keys",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Meters": {
+          "@cds.persistence.name": "METERS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.Meters",
+          "on": [
+            {
+              "ref": [
+                "Meters",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "FixturesSet": {
+          "@cds.persistence.name": "FIXTURESSET",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.FixturesSet",
+          "on": [
+            {
+              "ref": [
+                "FixturesSet",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "FixturesNew": {
+          "@cds.persistence.name": "FIXTURESNEW",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BackendService.FixturesNew",
+          "on": [
+            {
+              "ref": [
+                "FixturesNew",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Contract": {
+          "@cds.persistence.name": "CONTRACT",
+          "type": "cds.Association",
+          "target": "BackendService.Contracts",
+          "on": [
+            {
+              "ref": [
+                "ContractId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Contract",
+                "ContractId"
+              ]
+            }
+          ]
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "BackendService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService": {
+      "@source": "srv/cockpit-service.cds",
+      "kind": "service",
+      "@requires": "cockpit"
+    },
+    "CockpitService.Contracts": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_CONTRACTS",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Contracts"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ContractId": {
+          "@cds.persistence.name": "CONTRACTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "CompanyCode": {
+          "@cds.persistence.name": "COMPANYCODE",
+          "type": "cds.String",
+          "length": 4
+        },
+        "ContractNumber": {
+          "@cds.persistence.name": "CONTRACTNUMBER",
+          "type": "cds.String",
+          "length": 13
+        },
+        "ContractStartDate": {
+          "@cds.persistence.name": "CONTRACTSTARTDATE",
+          "type": "cds.Date"
+        },
+        "ContractEndDate": {
+          "@cds.persistence.name": "CONTRACTENDDATE",
+          "type": "cds.Date"
+        },
+        "ContractType": {
+          "@cds.persistence.name": "CONTRACTTYPE",
+          "type": "cds.String",
+          "length": 4
+        },
+        "ContractTypeName": {
+          "@cds.persistence.name": "CONTRACTTYPENAME",
+          "type": "cds.String",
+          "length": 30
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "CockpitService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "Notifications": {
+          "@cds.persistence.name": "NOTIFICATIONS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.Notifications",
+          "on": [
+            {
+              "ref": [
+                "Notifications",
+                "Contract"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.FixturesNew": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_FIXTURESNEW",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.FixturesNew"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "FixtureId": {
+          "@cds.persistence.name": "FIXTUREID",
+          "key": true,
+          "type": "cds.String",
+          "length": 6
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "type": "cds.String",
+          "length": 12
+        },
+        "AdditionalInformation": {
+          "@cds.persistence.name": "ADDITIONALINFORMATION",
+          "type": "cds.Decimal",
+          "precision": 7,
+          "scale": 2
+        },
+        "Number": {
+          "@cds.persistence.name": "NUMBER",
+          "type": "cds.Integer"
+        },
+        "IsFinished": {
+          "@cds.persistence.name": "ISFINISHED",
+          "type": "cds.Boolean"
+        },
+        "IsSet": {
+          "@cds.persistence.name": "ISSET",
+          "type": "cds.Boolean"
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "CockpitService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.FixturesSet": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_FIXTURESSET",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.FixturesSet"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "FixtureId": {
+          "@cds.persistence.name": "FIXTUREID",
+          "key": true,
+          "type": "cds.String",
+          "length": 6
+        },
+        "AdditionalInformation": {
+          "@cds.persistence.name": "ADDITIONALINFORMATION",
+          "type": "cds.Decimal",
+          "precision": 7,
+          "scale": 2
+        },
+        "Number": {
+          "@cds.persistence.name": "NUMBER",
+          "type": "cds.Integer"
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "CockpitService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.FunctionalLocationAdditions": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_FUNCTIONALLOCATIONADDITIONS",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.FunctionalLocationAdditions"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "Name": {
+          "@cds.persistence.name": "NAME",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "Value": {
+          "@cds.persistence.name": "VALUE",
+          "type": "cds.String",
+          "length": 255
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "CockpitService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.FunctionalLocations": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_FUNCTIONALLOCATIONS",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.FunctionalLocations"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "Street": {
+          "@cds.persistence.name": "STREET",
+          "type": "cds.String",
+          "length": 60
+        },
+        "HouseNumber1": {
+          "@cds.persistence.name": "HOUSENUMBER1",
+          "type": "cds.String",
+          "length": 10
+        },
+        "HouseNumber2": {
+          "@cds.persistence.name": "HOUSENUMBER2",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ZipCode": {
+          "@cds.persistence.name": "ZIPCODE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "City": {
+          "@cds.persistence.name": "CITY",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Country": {
+          "@cds.persistence.name": "COUNTRY",
+          "type": "cds.String",
+          "length": 3
+        },
+        "Region": {
+          "@cds.persistence.name": "REGION",
+          "type": "cds.String",
+          "length": 3
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationName": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONNAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationType": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONTYPE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ParentId": {
+          "@cds.persistence.name": "PARENTID",
+          "type": "cds.String",
+          "length": 30
+        },
+        "AlternativeId": {
+          "@cds.persistence.name": "ALTERNATIVEID",
+          "type": "cds.String",
+          "length": 30
+        },
+        "Latitude": {
+          "@cds.persistence.name": "LATITUDE",
+          "type": "cds.String",
+          "length": 8
+        },
+        "Longitude": {
+          "@cds.persistence.name": "LONGITUDE",
+          "type": "cds.String",
+          "length": 8
+        },
+        "BomNumber": {
+          "@cds.persistence.name": "BOMNUMBER",
+          "type": "cds.String",
+          "length": 8
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "SortId": {
+          "@cds.persistence.name": "SORTID",
+          "type": "cds.String",
+          "length": 4
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "CockpitService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "Notifications": {
+          "@cds.persistence.name": "NOTIFICATIONS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.Notifications",
+          "on": [
+            {
+              "ref": [
+                "Notifications",
+                "FunctionalLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Parent": {
+          "@cds.persistence.name": "PARENT",
+          "type": "cds.Association",
+          "target": "CockpitService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "ParentId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Parent",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        },
+        "Children": {
+          "@cds.persistence.name": "CHILDREN",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "Children",
+                "Parent"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Additions": {
+          "@cds.persistence.name": "ADDITIONS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.FunctionalLocationAdditions",
+          "on": [
+            {
+              "ref": [
+                "Additions",
+                "FunctionalLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Materials": {
+          "@cds.persistence.name": "MATERIALS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.Materials",
+          "on": [
+            {
+              "ref": [
+                "Materials",
+                "FunctionalLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.KeyNumbers": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_KEYNUMBERS",
+      "@restrict": [
+        {
+          "grant": [
+            "WRITE",
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.KeyNumbers"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "KeyNumberRequired": {
+          "@cds.persistence.name": "KEYNUMBERREQUIRED",
+          "type": "cds.Integer"
+        },
+        "KeyNumberActual": {
+          "@cds.persistence.name": "KEYNUMBERACTUAL",
+          "type": "cds.Integer"
+        },
+        "ChangeLockCylinder": {
+          "@cds.persistence.name": "CHANGELOCKCYLINDER",
+          "type": "cds.Boolean"
+        },
+        "CorrespondingKey": {
+          "@cds.persistence.name": "CORRESPONDINGKEY",
+          "type": "cds.Association",
+          "target": "CockpitService.Keys",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "CorrespondingKey",
+                "ObjectId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "CorrespondingKey",
+                "ID"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.Keys": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_KEYS",
+      "@restrict": [
+        {
+          "grant": [
+            "WRITE",
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Keys"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "KeyTypeId": {
+          "@cds.persistence.name": "KEYTYPEID",
+          "type": "cds.String",
+          "length": 4
+        },
+        "KeyTypeName": {
+          "@cds.persistence.name": "KEYTYPENAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "KeyName": {
+          "@cds.persistence.name": "KEYNAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "IsLockingSystem": {
+          "@cds.persistence.name": "ISLOCKINGSYSTEM",
+          "type": "cds.Boolean"
+        },
+        "Cost": {
+          "@cds.persistence.name": "COST",
+          "type": "cds.Decimal",
+          "precision": 8,
+          "scale": 2
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "CockpitService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "KeyNumbers": {
+          "@cds.persistence.name": "KEYNUMBERS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.KeyNumbers",
+          "on": [
+            {
+              "ref": [
+                "KeyNumbers",
+                "CorrespondingKey"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.MaterialConditions": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_MATERIALCONDITIONS",
+      "@restrict": [
+        {
+          "grant": [
+            "WRITE",
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.MaterialConditions"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "MaterialId": {
+          "@cds.persistence.name": "MATERIALID",
+          "key": true,
+          "type": "cds.String",
+          "length": 18
+        },
+        "BomId": {
+          "@cds.persistence.name": "BOMID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "CatalogType": {
+          "@cds.persistence.name": "CATALOGTYPE",
+          "key": true,
+          "type": "cds.String",
+          "length": 1
+        },
+        "CodeGroup": {
+          "@cds.persistence.name": "CODEGROUP",
+          "key": true,
+          "type": "cds.String",
+          "length": 8
+        },
+        "Code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 4
+        },
+        "ConditionStatus": {
+          "@cds.persistence.name": "CONDITIONSTATUS",
+          "type": "cds.String",
+          "length": 1
+        },
+        "ConditionKey": {
+          "@cds.persistence.name": "CONDITIONKEY",
+          "type": "cds.String",
+          "length": 3
+        },
+        "Responsible": {
+          "@cds.persistence.name": "RESPONSIBLE",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Measurement": {
+          "@cds.persistence.name": "MEASUREMENT",
+          "type": "cds.Decimal",
+          "precision": 8,
+          "scale": 2
+        },
+        "Text": {
+          "@cds.persistence.name": "TEXT",
+          "type": "cds.String"
+        },
+        "Material": {
+          "@cds.persistence.name": "MATERIAL",
+          "type": "cds.Association",
+          "target": "CockpitService.Materials",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "FunctionalLocationId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "MaterialId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "MaterialId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "BomId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "BomId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.MaterialFields": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_MATERIALFIELDS",
+      "@restrict": [
+        {
+          "grant": [
+            "WRITE",
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.MaterialFields"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "MaterialId": {
+          "@cds.persistence.name": "MATERIALID",
+          "key": true,
+          "type": "cds.String",
+          "length": 18
+        },
+        "BomId": {
+          "@cds.persistence.name": "BOMID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "Fieldname": {
+          "@cds.persistence.name": "FIELDNAME",
+          "key": true,
+          "type": "cds.String",
+          "length": 30
+        },
+        "Fieldvalue": {
+          "@cds.persistence.name": "FIELDVALUE",
+          "type": "cds.String",
+          "length": 255
+        },
+        "IsChanged": {
+          "@cds.persistence.name": "ISCHANGED",
+          "type": "cds.Boolean"
+        },
+        "Material": {
+          "@cds.persistence.name": "MATERIAL",
+          "type": "cds.Association",
+          "target": "CockpitService.Materials",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "FunctionalLocationId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "MaterialId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "MaterialId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "BomId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "BomId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.Materials": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_MATERIALS",
+      "@restrict": [
+        {
+          "grant": [
+            "WRITE",
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Materials"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "MaterialId": {
+          "@cds.persistence.name": "MATERIALID",
+          "key": true,
+          "type": "cds.String",
+          "length": 18
+        },
+        "BomId": {
+          "@cds.persistence.name": "BOMID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "BomNumber": {
+          "@cds.persistence.name": "BOMNUMBER",
+          "type": "cds.String",
+          "length": 8
+        },
+        "BomCategory": {
+          "@cds.persistence.name": "BOMCATEGORY",
+          "type": "cds.String",
+          "length": 1
+        },
+        "BomNodeNumber": {
+          "@cds.persistence.name": "BOMNODENUMBER",
+          "type": "cds.String",
+          "length": 8
+        },
+        "BomCounterId": {
+          "@cds.persistence.name": "BOMCOUNTERID",
+          "type": "cds.String",
+          "length": 8
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "CockpitService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        },
+        "MaterialFields": {
+          "@cds.persistence.name": "MATERIALFIELDS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.MaterialFields",
+          "on": [
+            {
+              "ref": [
+                "MaterialFields",
+                "Material"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Conditions": {
+          "@cds.persistence.name": "CONDITIONS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.MaterialConditions",
+          "on": [
+            {
+              "ref": [
+                "Conditions",
+                "Material"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.MeterReadings": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_METERREADINGS",
+      "@restrict": [
+        {
+          "grant": [
+            "WRITE",
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.MeterReadings"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "NumeratorId": {
+          "@cds.persistence.name": "NUMERATORID",
+          "key": true,
+          "type": "cds.String",
+          "length": 8
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "MeterValue": {
+          "@cds.persistence.name": "METERVALUE",
+          "type": "cds.Decimal",
+          "precision": 20,
+          "scale": 6
+        },
+        "MeterValueString": {
+          "@cds.persistence.name": "METERVALUESTRING",
+          "type": "cds.String",
+          "length": 20
+        },
+        "ReadingDate": {
+          "@cds.persistence.name": "READINGDATE",
+          "type": "cds.Date"
+        },
+        "IsFinished": {
+          "@cds.persistence.name": "ISFINISHED",
+          "type": "cds.Boolean"
+        },
+        "BookingError": {
+          "@cds.persistence.name": "BOOKINGERROR",
+          "type": "cds.Boolean"
+        },
+        "Meter": {
+          "@cds.persistence.name": "METER",
+          "type": "cds.Association",
+          "target": "CockpitService.Meters",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Meter",
+                "ObjectId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Meter",
+                "ID"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.Meters": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_METERS",
+      "@restrict": [
+        {
+          "grant": [
+            "WRITE",
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Meters"
+            ]
+          },
+          "excluding": [
+            "createdBy",
+            "createdAt",
+            "modifiedBy",
+            "modifiedAt"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "MeterId": {
+          "@cds.persistence.name": "METERID",
+          "type": "cds.String",
+          "length": 8
+        },
+        "MeterName": {
+          "@cds.persistence.name": "METERNAME",
+          "type": "cds.String",
+          "length": 20
+        },
+        "MeterLocation": {
+          "@cds.persistence.name": "METERLOCATION",
+          "type": "cds.String",
+          "length": 40
+        },
+        "MeterCondition": {
+          "@cds.persistence.name": "METERCONDITION",
+          "type": "cds.String",
+          "length": 4
+        },
+        "PixoMeterType": {
+          "@cds.persistence.name": "PIXOMETERTYPE",
+          "type": "cds.String",
+          "length": 29
+        },
+        "PixoIntegerDigits": {
+          "@cds.persistence.name": "PIXOINTEGERDIGITS",
+          "type": "cds.String",
+          "length": 4
+        },
+        "PixoFractionDigits": {
+          "@cds.persistence.name": "PIXOFRACTIONDIGITS",
+          "type": "cds.String",
+          "length": 4
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "CockpitService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "MeterReadings": {
+          "@cds.persistence.name": "METERREADINGS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.MeterReadings",
+          "on": [
+            {
+              "ref": [
+                "MeterReadings",
+                "Meter"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.Notifications": {
+      "kind": "entity",
+      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "@Capabilities.InsertRestrictions.Insertable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": false,
+      "@cds.persistence.name": "COCKPITSERVICE_NOTIFICATIONS",
+      "@readonly": true,
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Notifications"
+            ]
+          },
+          "excluding": [
+            "createdBy",
+            "createdAt",
+            "modifiedBy",
+            "modifiedAt"
+          ]
+        }
+      },
+      "elements": {
+        "ModuleId": {
+          "@cds.persistence.name": "MODULEID",
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "NotificationTypeId": {
+          "@cds.persistence.name": "NOTIFICATIONTYPEID",
+          "type": "cds.String",
+          "length": 2
+        },
+        "NotificationTypeName": {
+          "@cds.persistence.name": "NOTIFICATIONTYPENAME",
+          "type": "cds.String",
+          "length": 20
+        },
+        "NotificationShortText": {
+          "@cds.persistence.name": "NOTIFICATIONSHORTTEXT",
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationName": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONNAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "DesiredStartDate": {
+          "@cds.persistence.name": "DESIREDSTARTDATE",
+          "type": "cds.Timestamp"
+        },
+        "DesiredEndDate": {
+          "@cds.persistence.name": "DESIREDENDDATE",
+          "type": "cds.Timestamp"
+        },
+        "DueDate": {
+          "@cds.persistence.name": "DUEDATE",
+          "type": "cds.Timestamp"
+        },
+        "CreatedAtDate": {
+          "@cds.persistence.name": "CREATEDATDATE",
+          "type": "cds.Timestamp"
+        },
+        "ClosedAtDate": {
+          "@cds.persistence.name": "CLOSEDATDATE",
+          "type": "cds.Timestamp"
+        },
+        "UpdatedAtDate": {
+          "@cds.persistence.name": "UPDATEDATDATE",
+          "type": "cds.Timestamp"
+        },
+        "IsNotificationClosed": {
+          "@cds.persistence.name": "ISNOTIFICATIONCLOSED",
+          "type": "cds.Boolean"
+        },
+        "VendorId": {
+          "@cds.persistence.name": "VENDORID",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "ContractId": {
+          "@cds.persistence.name": "CONTRACTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "PartnerId": {
+          "@cds.persistence.name": "PARTNERID",
+          "type": "cds.String",
+          "length": 10
+        },
+        "Workplace": {
+          "@cds.persistence.name": "WORKPLACE",
+          "type": "cds.String",
+          "length": 8
+        },
+        "NotificationFormId": {
+          "@cds.persistence.name": "NOTIFICATIONFORMID",
+          "type": "cds.String",
+          "length": 2
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "CockpitService.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "Contract": {
+          "@cds.persistence.name": "CONTRACT",
+          "type": "cds.Association",
+          "target": "CockpitService.Contracts",
+          "on": [
+            {
+              "ref": [
+                "ContractId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Contract",
+                "ContractId"
+              ]
+            }
+          ]
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "CockpitService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.Objects": {
+      "kind": "entity",
+      "@cds.persistence.name": "COCKPITSERVICE_OBJECTS",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Objects"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "Street": {
+          "@cds.persistence.name": "STREET",
+          "type": "cds.String",
+          "length": 60
+        },
+        "HouseNumber1": {
+          "@cds.persistence.name": "HOUSENUMBER1",
+          "type": "cds.String",
+          "length": 10
+        },
+        "HouseNumber2": {
+          "@cds.persistence.name": "HOUSENUMBER2",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ZipCode": {
+          "@cds.persistence.name": "ZIPCODE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "City": {
+          "@cds.persistence.name": "CITY",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Country": {
+          "@cds.persistence.name": "COUNTRY",
+          "type": "cds.String",
+          "length": 3
+        },
+        "Region": {
+          "@cds.persistence.name": "REGION",
+          "type": "cds.String",
+          "length": 3
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "ObjectName": {
+          "@cds.persistence.name": "OBJECTNAME",
+          "type": "cds.String",
+          "length": 60
+        },
+        "CompanyCode": {
+          "@cds.persistence.name": "COMPANYCODE",
+          "type": "cds.String",
+          "length": 4
+        },
+        "BusinessEntity": {
+          "@cds.persistence.name": "BUSINESSENTITY",
+          "type": "cds.String",
+          "length": 8
+        },
+        "RentalObject": {
+          "@cds.persistence.name": "RENTALOBJECT",
+          "type": "cds.String",
+          "length": 8
+        },
+        "Building": {
+          "@cds.persistence.name": "BUILDING",
+          "type": "cds.String",
+          "length": 8
+        },
+        "Property": {
+          "@cds.persistence.name": "PROPERTY",
+          "type": "cds.String",
+          "length": 8
+        },
+        "ObjectType": {
+          "@cds.persistence.name": "OBJECTTYPE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ObjectTypeName": {
+          "@cds.persistence.name": "OBJECTTYPENAME",
+          "type": "cds.String",
+          "length": 20
+        },
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "type": "cds.String",
+          "length": 30
+        },
+        "FloorId": {
+          "@cds.persistence.name": "FLOORID",
+          "type": "cds.String",
+          "length": 3
+        },
+        "FloorName": {
+          "@cds.persistence.name": "FLOORNAME",
+          "type": "cds.String",
+          "length": 15
+        },
+        "LocationOnFloorId": {
+          "@cds.persistence.name": "LOCATIONONFLOORID",
+          "type": "cds.String",
+          "length": 2
+        },
+        "LocationOnFloorName": {
+          "@cds.persistence.name": "LOCATIONONFLOORNAME",
+          "type": "cds.String",
+          "length": 15
+        },
+        "TypeOfUseId": {
+          "@cds.persistence.name": "TYPEOFUSEID",
+          "type": "cds.String",
+          "length": 4
+        },
+        "TypeOfUseName": {
+          "@cds.persistence.name": "TYPEOFUSENAME",
+          "type": "cds.String",
+          "length": 4
+        },
+        "IsBuilding": {
+          "@cds.persistence.name": "ISBUILDING",
+          "type": "cds.Boolean"
+        },
+        "IsProperty": {
+          "@cds.persistence.name": "ISPROPERTY",
+          "type": "cds.Boolean"
+        },
+        "ContractId": {
+          "@cds.persistence.name": "CONTRACTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "Notifications": {
+          "@cds.persistence.name": "NOTIFICATIONS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.Notifications",
+          "on": [
+            {
+              "ref": [
+                "Notifications",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Keys": {
+          "@cds.persistence.name": "KEYS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.Keys",
+          "on": [
+            {
+              "ref": [
+                "Keys",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Meters": {
+          "@cds.persistence.name": "METERS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.Meters",
+          "on": [
+            {
+              "ref": [
+                "Meters",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "FixturesSet": {
+          "@cds.persistence.name": "FIXTURESSET",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.FixturesSet",
+          "on": [
+            {
+              "ref": [
+                "FixturesSet",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "FixturesNew": {
+          "@cds.persistence.name": "FIXTURESNEW",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CockpitService.FixturesNew",
+          "on": [
+            {
+              "ref": [
+                "FixturesNew",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Contract": {
+          "@cds.persistence.name": "CONTRACT",
+          "type": "cds.Association",
+          "target": "CockpitService.Contracts",
+          "on": [
+            {
+              "ref": [
+                "ContractId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Contract",
+                "ContractId"
+              ]
+            }
+          ]
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "CockpitService.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CockpitService.Tiles": {
+      "kind": "entity",
+      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "@Capabilities.InsertRestrictions.Insertable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": false,
+      "@cds.persistence.name": "COCKPITSERVICE_TILES",
+      "@readonly": true,
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "cockpit"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Tiles"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "TileId": {
+          "@cds.persistence.name": "TILEID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "TileName": {
+          "@cds.persistence.name": "TILENAME",
+          "type": "cds.String",
+          "length": 32
+        },
+        "Description": {
+          "@cds.persistence.name": "DESCRIPTION",
+          "type": "cds.String",
+          "length": 255
+        },
+        "PageId": {
+          "@cds.persistence.name": "PAGEID",
+          "type": "cds.String",
+          "length": 32
+        },
+        "IconId": {
+          "@cds.persistence.name": "ICONID",
+          "type": "cds.String",
+          "length": 20
+        },
+        "ParentId": {
+          "@cds.persistence.name": "PARENTID",
+          "type": "cds.String",
+          "length": 36
+        },
+        "SortId": {
+          "@cds.persistence.name": "SORTID",
+          "type": "cds.Integer"
+        }
+      },
+      "$syntax": "projection"
+    },
+    "Country": {
+      "kind": "type",
+      "@Common.Label": "{i18n>Country}",
+      "@Core.Description": "{i18n>CountryCode.Description}",
+      "@cds.persistence.name": "COUNTRY",
+      "type": "cds.Association",
+      "target": "sap.common.Countries",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Currency": {
+      "kind": "type",
+      "@Common.Label": "{i18n>Currency}",
+      "@Core.Description": "{i18n>CurrencyCode.Description}",
+      "@cds.persistence.name": "CURRENCY",
+      "type": "cds.Association",
+      "target": "sap.common.Currencies",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "DowntimeService": {
+      "@source": "srv/downtime-service.cds",
+      "kind": "service"
+    },
+    "DowntimeService.Downtimes": {
+      "kind": "entity",
+      "@cds.persistence.name": "DOWNTIMESERVICE_DOWNTIMES",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "de.datatrain.Downtimes"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "id": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "description": {
+          "@cds.persistence.name": "DESCRIPTION",
+          "type": "cds.String",
+          "length": 255
+        },
+        "startTime": {
+          "@cds.persistence.name": "STARTTIME",
+          "type": "cds.Timestamp"
+        },
+        "endTime": {
+          "@cds.persistence.name": "ENDTIME",
+          "type": "cds.Timestamp"
+        }
+      },
+      "$syntax": "projection"
+    },
+    "Language": {
+      "kind": "type",
+      "@Common.Label": "{i18n>Language}",
+      "@Core.Description": "{i18n>LanguageCode.Description}",
+      "@cds.persistence.name": "LANGUAGE",
+      "type": "cds.Association",
+      "target": "sap.common.Languages",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "SAddress": {
+      "kind": "type",
+      "@cds.persistence.name": "SADDRESS",
+      "elements": {
+        "Street": {
+          "@cds.persistence.name": "STREET",
+          "type": "cds.String",
+          "length": 60
+        },
+        "HouseNumber1": {
+          "@cds.persistence.name": "HOUSENUMBER1",
+          "type": "cds.String",
+          "length": 10
+        },
+        "HouseNumber2": {
+          "@cds.persistence.name": "HOUSENUMBER2",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ZipCode": {
+          "@cds.persistence.name": "ZIPCODE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "City": {
+          "@cds.persistence.name": "CITY",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Country": {
+          "@cds.persistence.name": "COUNTRY",
+          "type": "cds.String",
+          "length": 3
+        },
+        "Region": {
+          "@cds.persistence.name": "REGION",
+          "type": "cds.String",
+          "length": 3
+        }
+      },
+      "$syntax": "aspect"
+    },
+    "User": {
+      "kind": "type",
+      "@Common.Label": "{i18n>UserID}",
+      "@Core.Description": "{i18n>UserID.Description}",
+      "@cds.persistence.name": "USER",
+      "type": "cds.String",
+      "length": 255
+    },
+    "cuid": {
+      "kind": "entity",
+      "@cds.persistence.name": "CUID",
+      "abstract": true,
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        }
+      }
+    },
+    "de.datatrain.Contracts": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_CONTRACTS",
+      "includes": [
+        "managed"
+      ],
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ContractId": {
+          "@cds.persistence.name": "CONTRACTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "CompanyCode": {
+          "@cds.persistence.name": "COMPANYCODE",
+          "type": "cds.String",
+          "length": 4
+        },
+        "ContractNumber": {
+          "@cds.persistence.name": "CONTRACTNUMBER",
+          "type": "cds.String",
+          "length": 13
+        },
+        "ContractStartDate": {
+          "@cds.persistence.name": "CONTRACTSTARTDATE",
+          "type": "cds.Date"
+        },
+        "ContractEndDate": {
+          "@cds.persistence.name": "CONTRACTENDDATE",
+          "type": "cds.Date"
+        },
+        "ContractType": {
+          "@cds.persistence.name": "CONTRACTTYPE",
+          "type": "cds.String",
+          "length": 4
+        },
+        "ContractTypeName": {
+          "@cds.persistence.name": "CONTRACTTYPENAME",
+          "type": "cds.String",
+          "length": 30
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "de.datatrain.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "Notifications": {
+          "@cds.persistence.name": "NOTIFICATIONS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.Notifications",
+          "on": [
+            {
+              "ref": [
+                "Notifications",
+                "Contract"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.Downtimes": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_DOWNTIMES",
+      "elements": {
+        "id": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "description": {
+          "@cds.persistence.name": "DESCRIPTION",
+          "type": "cds.String",
+          "length": 255
+        },
+        "startTime": {
+          "@cds.persistence.name": "STARTTIME",
+          "type": "cds.Timestamp"
+        },
+        "endTime": {
+          "@cds.persistence.name": "ENDTIME",
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "de.datatrain.FixturesNew": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_FIXTURESNEW",
+      "elements": {
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "FixtureId": {
+          "@cds.persistence.name": "FIXTUREID",
+          "key": true,
+          "type": "cds.String",
+          "length": 6
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "type": "cds.String",
+          "length": 12
+        },
+        "AdditionalInformation": {
+          "@cds.persistence.name": "ADDITIONALINFORMATION",
+          "type": "cds.Decimal",
+          "precision": 7,
+          "scale": 2
+        },
+        "Number": {
+          "@cds.persistence.name": "NUMBER",
+          "type": "cds.Integer"
+        },
+        "IsFinished": {
+          "@cds.persistence.name": "ISFINISHED",
+          "type": "cds.Boolean"
+        },
+        "IsSet": {
+          "@cds.persistence.name": "ISSET",
+          "type": "cds.Boolean"
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "de.datatrain.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.FixturesSet": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_FIXTURESSET",
+      "elements": {
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "FixtureId": {
+          "@cds.persistence.name": "FIXTUREID",
+          "key": true,
+          "type": "cds.String",
+          "length": 6
+        },
+        "AdditionalInformation": {
+          "@cds.persistence.name": "ADDITIONALINFORMATION",
+          "type": "cds.Decimal",
+          "precision": 7,
+          "scale": 2
+        },
+        "Number": {
+          "@cds.persistence.name": "NUMBER",
+          "type": "cds.Integer"
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "de.datatrain.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.FunctionalLocationAdditions": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_FUNCTIONALLOCATIONADDITIONS",
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "Name": {
+          "@cds.persistence.name": "NAME",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "Value": {
+          "@cds.persistence.name": "VALUE",
+          "type": "cds.String",
+          "length": 255
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "de.datatrain.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.FunctionalLocations": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_FUNCTIONALLOCATIONS",
+      "includes": [
+        "SAddress",
+        "managed"
+      ],
+      "elements": {
+        "Street": {
+          "@cds.persistence.name": "STREET",
+          "type": "cds.String",
+          "length": 60
+        },
+        "HouseNumber1": {
+          "@cds.persistence.name": "HOUSENUMBER1",
+          "type": "cds.String",
+          "length": 10
+        },
+        "HouseNumber2": {
+          "@cds.persistence.name": "HOUSENUMBER2",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ZipCode": {
+          "@cds.persistence.name": "ZIPCODE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "City": {
+          "@cds.persistence.name": "CITY",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Country": {
+          "@cds.persistence.name": "COUNTRY",
+          "type": "cds.String",
+          "length": 3
+        },
+        "Region": {
+          "@cds.persistence.name": "REGION",
+          "type": "cds.String",
+          "length": 3
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationName": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONNAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationType": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONTYPE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ParentId": {
+          "@cds.persistence.name": "PARENTID",
+          "type": "cds.String",
+          "length": 30
+        },
+        "AlternativeId": {
+          "@cds.persistence.name": "ALTERNATIVEID",
+          "type": "cds.String",
+          "length": 30
+        },
+        "Latitude": {
+          "@cds.persistence.name": "LATITUDE",
+          "type": "cds.String",
+          "length": 8
+        },
+        "Longitude": {
+          "@cds.persistence.name": "LONGITUDE",
+          "type": "cds.String",
+          "length": 8
+        },
+        "BomNumber": {
+          "@cds.persistence.name": "BOMNUMBER",
+          "type": "cds.String",
+          "length": 8
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "SortId": {
+          "@cds.persistence.name": "SORTID",
+          "type": "cds.String",
+          "length": 4
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "de.datatrain.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "Notifications": {
+          "@cds.persistence.name": "NOTIFICATIONS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.Notifications",
+          "on": [
+            {
+              "ref": [
+                "Notifications",
+                "FunctionalLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Parent": {
+          "@cds.persistence.name": "PARENT",
+          "type": "cds.Association",
+          "target": "de.datatrain.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "ParentId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Parent",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        },
+        "Children": {
+          "@cds.persistence.name": "CHILDREN",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "Children",
+                "Parent"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Additions": {
+          "@cds.persistence.name": "ADDITIONS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.FunctionalLocationAdditions",
+          "on": [
+            {
+              "ref": [
+                "Additions",
+                "FunctionalLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Materials": {
+          "@cds.persistence.name": "MATERIALS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.Materials",
+          "on": [
+            {
+              "ref": [
+                "Materials",
+                "FunctionalLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.KeyNumbers": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_KEYNUMBERS",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "KeyNumberRequired": {
+          "@cds.persistence.name": "KEYNUMBERREQUIRED",
+          "type": "cds.Integer"
+        },
+        "KeyNumberActual": {
+          "@cds.persistence.name": "KEYNUMBERACTUAL",
+          "type": "cds.Integer"
+        },
+        "ChangeLockCylinder": {
+          "@cds.persistence.name": "CHANGELOCKCYLINDER",
+          "type": "cds.Boolean"
+        },
+        "CorrespondingKey": {
+          "@cds.persistence.name": "CORRESPONDINGKEY",
+          "type": "cds.Association",
+          "target": "de.datatrain.Keys",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "CorrespondingKey",
+                "ObjectId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "CorrespondingKey",
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.Keys": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_KEYS",
+      "includes": [
+        "cuid",
+        "managed"
+      ],
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "KeyTypeId": {
+          "@cds.persistence.name": "KEYTYPEID",
+          "type": "cds.String",
+          "length": 4
+        },
+        "KeyTypeName": {
+          "@cds.persistence.name": "KEYTYPENAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "KeyName": {
+          "@cds.persistence.name": "KEYNAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "IsLockingSystem": {
+          "@cds.persistence.name": "ISLOCKINGSYSTEM",
+          "type": "cds.Boolean"
+        },
+        "Cost": {
+          "@cds.persistence.name": "COST",
+          "type": "cds.Decimal",
+          "precision": 8,
+          "scale": 2
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "de.datatrain.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "KeyNumbers": {
+          "@cds.persistence.name": "KEYNUMBERS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.KeyNumbers",
+          "on": [
+            {
+              "ref": [
+                "KeyNumbers",
+                "CorrespondingKey"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.MaterialConditions": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_MATERIALCONDITIONS",
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "MaterialId": {
+          "@cds.persistence.name": "MATERIALID",
+          "key": true,
+          "type": "cds.String",
+          "length": 18
+        },
+        "BomId": {
+          "@cds.persistence.name": "BOMID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "CatalogType": {
+          "@cds.persistence.name": "CATALOGTYPE",
+          "key": true,
+          "type": "cds.String",
+          "length": 1
+        },
+        "CodeGroup": {
+          "@cds.persistence.name": "CODEGROUP",
+          "key": true,
+          "type": "cds.String",
+          "length": 8
+        },
+        "Code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 4
+        },
+        "ConditionStatus": {
+          "@cds.persistence.name": "CONDITIONSTATUS",
+          "type": "cds.String",
+          "length": 1
+        },
+        "ConditionKey": {
+          "@cds.persistence.name": "CONDITIONKEY",
+          "type": "cds.String",
+          "length": 3
+        },
+        "Responsible": {
+          "@cds.persistence.name": "RESPONSIBLE",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Measurement": {
+          "@cds.persistence.name": "MEASUREMENT",
+          "type": "cds.Decimal",
+          "precision": 8,
+          "scale": 2
+        },
+        "Text": {
+          "@cds.persistence.name": "TEXT",
+          "type": "cds.String"
+        },
+        "Material": {
+          "@cds.persistence.name": "MATERIAL",
+          "type": "cds.Association",
+          "target": "de.datatrain.Materials",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "FunctionalLocationId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "MaterialId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "MaterialId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "BomId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "BomId"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.MaterialFields": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_MATERIALFIELDS",
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "MaterialId": {
+          "@cds.persistence.name": "MATERIALID",
+          "key": true,
+          "type": "cds.String",
+          "length": 18
+        },
+        "BomId": {
+          "@cds.persistence.name": "BOMID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "Fieldname": {
+          "@cds.persistence.name": "FIELDNAME",
+          "key": true,
+          "type": "cds.String",
+          "length": 30
+        },
+        "Fieldvalue": {
+          "@cds.persistence.name": "FIELDVALUE",
+          "type": "cds.String",
+          "length": 255
+        },
+        "IsChanged": {
+          "@cds.persistence.name": "ISCHANGED",
+          "type": "cds.Boolean"
+        },
+        "Material": {
+          "@cds.persistence.name": "MATERIAL",
+          "type": "cds.Association",
+          "target": "de.datatrain.Materials",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "FunctionalLocationId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "MaterialId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "MaterialId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "BomId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Material",
+                "BomId"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.Materials": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_MATERIALS",
+      "elements": {
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "MaterialId": {
+          "@cds.persistence.name": "MATERIALID",
+          "key": true,
+          "type": "cds.String",
+          "length": 18
+        },
+        "BomId": {
+          "@cds.persistence.name": "BOMID",
+          "key": true,
+          "type": "cds.String",
+          "length": 40
+        },
+        "BomNumber": {
+          "@cds.persistence.name": "BOMNUMBER",
+          "type": "cds.String",
+          "length": 8
+        },
+        "BomCategory": {
+          "@cds.persistence.name": "BOMCATEGORY",
+          "type": "cds.String",
+          "length": 1
+        },
+        "BomNodeNumber": {
+          "@cds.persistence.name": "BOMNODENUMBER",
+          "type": "cds.String",
+          "length": 8
+        },
+        "BomCounterId": {
+          "@cds.persistence.name": "BOMCOUNTERID",
+          "type": "cds.String",
+          "length": 8
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "de.datatrain.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        },
+        "MaterialFields": {
+          "@cds.persistence.name": "MATERIALFIELDS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.MaterialFields",
+          "on": [
+            {
+              "ref": [
+                "MaterialFields",
+                "Material"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Conditions": {
+          "@cds.persistence.name": "CONDITIONS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.MaterialConditions",
+          "on": [
+            {
+              "ref": [
+                "Conditions",
+                "Material"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.MeterReadings": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_METERREADINGS",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "NumeratorId": {
+          "@cds.persistence.name": "NUMERATORID",
+          "key": true,
+          "type": "cds.String",
+          "length": 8
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "MeterValue": {
+          "@cds.persistence.name": "METERVALUE",
+          "type": "cds.Decimal",
+          "precision": 20,
+          "scale": 6
+        },
+        "MeterValueString": {
+          "@cds.persistence.name": "METERVALUESTRING",
+          "type": "cds.String",
+          "length": 20
+        },
+        "ReadingDate": {
+          "@cds.persistence.name": "READINGDATE",
+          "type": "cds.Date"
+        },
+        "IsFinished": {
+          "@cds.persistence.name": "ISFINISHED",
+          "type": "cds.Boolean"
+        },
+        "BookingError": {
+          "@cds.persistence.name": "BOOKINGERROR",
+          "type": "cds.Boolean"
+        },
+        "Meter": {
+          "@cds.persistence.name": "METER",
+          "type": "cds.Association",
+          "target": "de.datatrain.Meters",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Meter",
+                "ObjectId"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Meter",
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.Meters": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_METERS",
+      "includes": [
+        "cuid",
+        "managed"
+      ],
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "MeterId": {
+          "@cds.persistence.name": "METERID",
+          "type": "cds.String",
+          "length": 8
+        },
+        "MeterName": {
+          "@cds.persistence.name": "METERNAME",
+          "type": "cds.String",
+          "length": 20
+        },
+        "MeterLocation": {
+          "@cds.persistence.name": "METERLOCATION",
+          "type": "cds.String",
+          "length": 40
+        },
+        "MeterCondition": {
+          "@cds.persistence.name": "METERCONDITION",
+          "type": "cds.String",
+          "length": 4
+        },
+        "PixoMeterType": {
+          "@cds.persistence.name": "PIXOMETERTYPE",
+          "type": "cds.String",
+          "length": 29
+        },
+        "PixoIntegerDigits": {
+          "@cds.persistence.name": "PIXOINTEGERDIGITS",
+          "type": "cds.String",
+          "length": 4
+        },
+        "PixoFractionDigits": {
+          "@cds.persistence.name": "PIXOFRACTIONDIGITS",
+          "type": "cds.String",
+          "length": 4
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "de.datatrain.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "MeterReadings": {
+          "@cds.persistence.name": "METERREADINGS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.MeterReadings",
+          "on": [
+            {
+              "ref": [
+                "MeterReadings",
+                "Meter"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.Notifications": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_NOTIFICATIONS",
+      "includes": [
+        "managed"
+      ],
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ModuleId": {
+          "@cds.persistence.name": "MODULEID",
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "NotificationId": {
+          "@cds.persistence.name": "NOTIFICATIONID",
+          "key": true,
+          "type": "cds.String",
+          "length": 12
+        },
+        "NotificationTypeId": {
+          "@cds.persistence.name": "NOTIFICATIONTYPEID",
+          "type": "cds.String",
+          "length": 2
+        },
+        "NotificationTypeName": {
+          "@cds.persistence.name": "NOTIFICATIONTYPENAME",
+          "type": "cds.String",
+          "length": 20
+        },
+        "NotificationShortText": {
+          "@cds.persistence.name": "NOTIFICATIONSHORTTEXT",
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "type": "cds.String",
+          "length": 40
+        },
+        "FunctionalLocationName": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONNAME",
+          "type": "cds.String",
+          "length": 40
+        },
+        "DesiredStartDate": {
+          "@cds.persistence.name": "DESIREDSTARTDATE",
+          "type": "cds.Timestamp"
+        },
+        "DesiredEndDate": {
+          "@cds.persistence.name": "DESIREDENDDATE",
+          "type": "cds.Timestamp"
+        },
+        "DueDate": {
+          "@cds.persistence.name": "DUEDATE",
+          "type": "cds.Timestamp"
+        },
+        "CreatedAtDate": {
+          "@cds.persistence.name": "CREATEDATDATE",
+          "type": "cds.Timestamp"
+        },
+        "ClosedAtDate": {
+          "@cds.persistence.name": "CLOSEDATDATE",
+          "type": "cds.Timestamp"
+        },
+        "UpdatedAtDate": {
+          "@cds.persistence.name": "UPDATEDATDATE",
+          "type": "cds.Timestamp"
+        },
+        "IsNotificationClosed": {
+          "@cds.persistence.name": "ISNOTIFICATIONCLOSED",
+          "type": "cds.Boolean"
+        },
+        "VendorId": {
+          "@cds.persistence.name": "VENDORID",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "ContractId": {
+          "@cds.persistence.name": "CONTRACTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "PartnerId": {
+          "@cds.persistence.name": "PARTNERID",
+          "type": "cds.String",
+          "length": 10
+        },
+        "Workplace": {
+          "@cds.persistence.name": "WORKPLACE",
+          "type": "cds.String",
+          "length": 8
+        },
+        "NotificationFormId": {
+          "@cds.persistence.name": "NOTIFICATIONFORMID",
+          "type": "cds.String",
+          "length": 2
+        },
+        "Object": {
+          "@cds.persistence.name": "OBJECT",
+          "type": "cds.Association",
+          "target": "de.datatrain.Objects",
+          "on": [
+            {
+              "ref": [
+                "ObjectId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Object",
+                "ObjectId"
+              ]
+            }
+          ]
+        },
+        "Contract": {
+          "@cds.persistence.name": "CONTRACT",
+          "type": "cds.Association",
+          "target": "de.datatrain.Contracts",
+          "on": [
+            {
+              "ref": [
+                "ContractId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Contract",
+                "ContractId"
+              ]
+            }
+          ]
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "de.datatrain.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.Objects": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_OBJECTS",
+      "includes": [
+        "SAddress",
+        "managed"
+      ],
+      "elements": {
+        "Street": {
+          "@cds.persistence.name": "STREET",
+          "type": "cds.String",
+          "length": 60
+        },
+        "HouseNumber1": {
+          "@cds.persistence.name": "HOUSENUMBER1",
+          "type": "cds.String",
+          "length": 10
+        },
+        "HouseNumber2": {
+          "@cds.persistence.name": "HOUSENUMBER2",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ZipCode": {
+          "@cds.persistence.name": "ZIPCODE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "City": {
+          "@cds.persistence.name": "CITY",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Country": {
+          "@cds.persistence.name": "COUNTRY",
+          "type": "cds.String",
+          "length": 3
+        },
+        "Region": {
+          "@cds.persistence.name": "REGION",
+          "type": "cds.String",
+          "length": 3
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ObjectId": {
+          "@cds.persistence.name": "OBJECTID",
+          "key": true,
+          "type": "cds.String",
+          "length": 13
+        },
+        "ObjectName": {
+          "@cds.persistence.name": "OBJECTNAME",
+          "type": "cds.String",
+          "length": 60
+        },
+        "CompanyCode": {
+          "@cds.persistence.name": "COMPANYCODE",
+          "type": "cds.String",
+          "length": 4
+        },
+        "BusinessEntity": {
+          "@cds.persistence.name": "BUSINESSENTITY",
+          "type": "cds.String",
+          "length": 8
+        },
+        "RentalObject": {
+          "@cds.persistence.name": "RENTALOBJECT",
+          "type": "cds.String",
+          "length": 8
+        },
+        "Building": {
+          "@cds.persistence.name": "BUILDING",
+          "type": "cds.String",
+          "length": 8
+        },
+        "Property": {
+          "@cds.persistence.name": "PROPERTY",
+          "type": "cds.String",
+          "length": 8
+        },
+        "ObjectType": {
+          "@cds.persistence.name": "OBJECTTYPE",
+          "type": "cds.String",
+          "length": 10
+        },
+        "ObjectTypeName": {
+          "@cds.persistence.name": "OBJECTTYPENAME",
+          "type": "cds.String",
+          "length": 20
+        },
+        "FunctionalLocationId": {
+          "@cds.persistence.name": "FUNCTIONALLOCATIONID",
+          "type": "cds.String",
+          "length": 30
+        },
+        "FloorId": {
+          "@cds.persistence.name": "FLOORID",
+          "type": "cds.String",
+          "length": 3
+        },
+        "FloorName": {
+          "@cds.persistence.name": "FLOORNAME",
+          "type": "cds.String",
+          "length": 15
+        },
+        "LocationOnFloorId": {
+          "@cds.persistence.name": "LOCATIONONFLOORID",
+          "type": "cds.String",
+          "length": 2
+        },
+        "LocationOnFloorName": {
+          "@cds.persistence.name": "LOCATIONONFLOORNAME",
+          "type": "cds.String",
+          "length": 15
+        },
+        "TypeOfUseId": {
+          "@cds.persistence.name": "TYPEOFUSEID",
+          "type": "cds.String",
+          "length": 4
+        },
+        "TypeOfUseName": {
+          "@cds.persistence.name": "TYPEOFUSENAME",
+          "type": "cds.String",
+          "length": 4
+        },
+        "IsBuilding": {
+          "@cds.persistence.name": "ISBUILDING",
+          "type": "cds.Boolean"
+        },
+        "IsProperty": {
+          "@cds.persistence.name": "ISPROPERTY",
+          "type": "cds.Boolean"
+        },
+        "ContractId": {
+          "@cds.persistence.name": "CONTRACTID",
+          "type": "cds.String",
+          "length": 13
+        },
+        "Notifications": {
+          "@cds.persistence.name": "NOTIFICATIONS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.Notifications",
+          "on": [
+            {
+              "ref": [
+                "Notifications",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Keys": {
+          "@cds.persistence.name": "KEYS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.Keys",
+          "on": [
+            {
+              "ref": [
+                "Keys",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Meters": {
+          "@cds.persistence.name": "METERS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.Meters",
+          "on": [
+            {
+              "ref": [
+                "Meters",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "FixturesSet": {
+          "@cds.persistence.name": "FIXTURESSET",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.FixturesSet",
+          "on": [
+            {
+              "ref": [
+                "FixturesSet",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "FixturesNew": {
+          "@cds.persistence.name": "FIXTURESNEW",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "de.datatrain.FixturesNew",
+          "on": [
+            {
+              "ref": [
+                "FixturesNew",
+                "Object"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Contract": {
+          "@cds.persistence.name": "CONTRACT",
+          "type": "cds.Association",
+          "target": "de.datatrain.Contracts",
+          "on": [
+            {
+              "ref": [
+                "ContractId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "Contract",
+                "ContractId"
+              ]
+            }
+          ]
+        },
+        "FunctionalLocation": {
+          "@cds.persistence.name": "FUNCTIONALLOCATION",
+          "type": "cds.Association",
+          "target": "de.datatrain.FunctionalLocations",
+          "on": [
+            {
+              "ref": [
+                "FunctionalLocationId"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "FunctionalLocation",
+                "FunctionalLocationId"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "de.datatrain.Tiles": {
+      "kind": "entity",
+      "@cds.persistence.name": "DE_DATATRAIN_TILES",
+      "elements": {
+        "TileId": {
+          "@cds.persistence.name": "TILEID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "TileName": {
+          "@cds.persistence.name": "TILENAME",
+          "type": "cds.String",
+          "length": 32
+        },
+        "Description": {
+          "@cds.persistence.name": "DESCRIPTION",
+          "type": "cds.String",
+          "length": 255
+        },
+        "PageId": {
+          "@cds.persistence.name": "PAGEID",
+          "type": "cds.String",
+          "length": 32
+        },
+        "IconId": {
+          "@cds.persistence.name": "ICONID",
+          "type": "cds.String",
+          "length": 20
+        },
+        "ParentId": {
+          "@cds.persistence.name": "PARENTID",
+          "type": "cds.String",
+          "length": 36
+        },
+        "SortId": {
+          "@cds.persistence.name": "SORTID",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "localized.sap.common.Countries": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_SAP_COMMON_COUNTRIES",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "sap.common.Countries"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*",
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "name"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "name"
+                  ]
+                }
+              ],
+              "as": "name"
+            },
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "descr"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "descr"
+                  ]
+                }
+              ],
+              "as": "descr"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CountryCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Countries_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Countries_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.sap.common.Currencies": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_SAP_COMMON_CURRENCIES",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "sap.common.Currencies"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*",
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "name"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "name"
+                  ]
+                }
+              ],
+              "as": "name"
+            },
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "descr"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "descr"
+                  ]
+                }
+              ],
+              "as": "descr"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CurrencyCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@Common.Label": "{i18n>CurrencySymbol}",
+          "@cds.persistence.name": "SYMBOL",
+          "type": "cds.String",
+          "length": 5
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Currencies_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Currencies_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.sap.common.Languages": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_SAP_COMMON_LANGUAGES",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "sap.common.Languages"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*",
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "name"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "name"
+                  ]
+                }
+              ],
+              "as": "name"
+            },
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "descr"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "descr"
+                  ]
+                }
+              ],
+              "as": "descr"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>LanguageCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Languages_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Languages_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "managed": {
+      "kind": "type",
+      "@cds.persistence.name": "MANAGED",
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        }
+      },
+      "$syntax": "aspect"
+    },
+    "sap.common": {
+      "kind": "context"
+    },
+    "sap.common.CodeList": {
+      "kind": "type",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SAP_COMMON_CODELIST",
+      "@cds.persistence.skip": "if-unused",
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        }
+      },
+      "$syntax": "aspect"
+    },
+    "sap.common.Countries": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SAP_COMMON_COUNTRIES",
+      "@cds.persistence.skip": "if-unused",
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CountryCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Countries_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Countries_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Countries_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.name": "SAP_COMMON_COUNTRIES_TEXTS",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CountryCode}",
+          "@cds.persistence.name": "CODE",
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Currencies": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SAP_COMMON_CURRENCIES",
+      "@cds.persistence.skip": "if-unused",
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CurrencyCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@Common.Label": "{i18n>CurrencySymbol}",
+          "@cds.persistence.name": "SYMBOL",
+          "type": "cds.String",
+          "length": 5
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Currencies_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Currencies_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Currencies_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.name": "SAP_COMMON_CURRENCIES_TEXTS",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CurrencyCode}",
+          "@cds.persistence.name": "CODE",
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Languages": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SAP_COMMON_LANGUAGES",
+      "@cds.persistence.skip": "if-unused",
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>LanguageCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Languages_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Languages_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Languages_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.name": "SAP_COMMON_LANGUAGES_TEXTS",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>LanguageCode}",
+          "@cds.persistence.name": "CODE",
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        }
+      }
+    },
+    "temporal": {
+      "kind": "type",
+      "@cds.persistence.name": "TEMPORAL",
+      "elements": {
+        "validFrom": {
+          "@cds.persistence.name": "VALIDFROM",
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.persistence.name": "VALIDTO",
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        }
+      },
+      "$syntax": "aspect"
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v1.26.2"
+  },
+  "$version": "1.0",
+  "@sql_mapping": "plain"
+}

@@ -27,7 +27,6 @@ modules:
       disk-quota: 256M
     requires:
       - name: cockpitcap-db-hdi-container
-      - name: cockpitcap-uaa
   # ---------------- SERVER MODULE ----------------------
   - name: cockpitcap
     type: java
@@ -48,9 +47,6 @@ modules:
           url: ${default-url}
     requires:
       - name: cockpitcap-db-hdi-container
-      - name: cockpitcap-uaa
-      - name: cockpitcap-destination-service
-      - name: cockpitcap-connectivity-service
   # ---------------- OData V2 PROXY MODULE ----------------------
   - name: cockpitcapv2
     type: nodejs
@@ -78,9 +74,6 @@ modules:
       memory: 256M
       disk-quota: 1024M
     requires:
-      - name: cockpitcap-destination-service
-      - name: cockpitcap-connectivity-service
-      - name: cockpitcap-uaa
       - name: srv_api_v2
         group: destinations
         properties:
@@ -107,31 +100,3 @@ resources:
     type: com.sap.xs.hdi-container
     properties:
       hdi-container-name: ${service-name}
-
-  - name: cockpitcap-uaa
-    parameters:
-      path: ./xs-security.json
-      service: xsuaa
-      service-plan: application
-      config:
-        xsappname: cockpitcap-${space}
-        tenant-mode: dedicated
-    type: org.cloudfoundry.managed-service
-
-  - name: cockpitcap-destination-service
-    parameters:
-      service-plan: lite
-      service: destination
-    type: org.cloudfoundry.managed-service
-
-  - name: cockpitcap-connectivity-service
-    parameters:
-      service-plan: lite
-      service: connectivity
-    type: org.cloudfoundry.managed-service
-
-  - name: cockpitcap-mobile-service
-    parameters:
-      service-plan: lite
-      service: mobile-services
-    type: org.cloudfoundry.managed-service

@@ -112,7 +112,7 @@ entity KeyNumbers : cuid {
                                  and ID       = CorrespondingKey.ID;
 }
 
-entity Meters : cuid {
+entity Meters : cuid, managed {
     key ObjectId           : String(13);
         MeterId            : String(8);
         MeterName          : String(20);

@@ -1,12 +1,29 @@
 using de.datatrain as db from '../db/data-model-cockpit';
 
 service CockpitService @(requires : 'cockpit') {
+    @readonly
     entity Tiles                       as projection on db.Tiles;
-    entity Notifications               as projection on db.Notifications;
+
+    @readonly
+    entity Notifications               as projection on db.Notifications excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
     entity Objects                     as projection on db.Objects;
     entity Keys                        as projection on db.Keys;
     entity KeyNumbers                  as projection on db.KeyNumbers;
-    entity Meters                      as projection on db.Meters;
+
+    //{* , ID as Id}
+    entity Meters                      as projection on db.Meters excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
     entity MeterReadings               as projection on db.MeterReadings;
     entity FixturesSet                 as projection on db.FixturesSet;
     entity FixturesNew                 as projection on db.FixturesNew;
@@ -17,6 +34,7 @@ service CockpitService @(requires : 'cockpit') {
     entity MaterialConditions          as projection on db.MaterialConditions;
     entity MaterialFields              as projection on db.MaterialFields;
 }
+
 
 annotate CockpitService.Tiles with @(restrict : [{
     grant : ['READ'],

@@ -15,7 +15,8 @@
             "name": "Debug (Launch)-Application<cockpitcap>",
             "request": "launch",
             "mainClass": "de.datatrain.cloud.Application",
-            "projectName": "cockpitcap"
+            "projectName": "cockpitcap",
+            "args": ""
         }
     ]
 }

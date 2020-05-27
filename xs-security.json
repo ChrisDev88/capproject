@@ -3,6 +3,10 @@
   "tenant-mode": "dedicated",
   "scopes": [
     {
+      "name": "$XSAPPNAME.admin",
+      "description": "admin"
+    },
+    {
       "name": "$XSAPPNAME.backend",
       "description": "backend"
     },
@@ -13,6 +17,14 @@
   ],
   "attributes": [],
   "role-templates": [
+    {
+      "name": "admin",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.admin"
+      ],
+      "attribute-references": []
+    },
     {
       "name": "backend",
       "description": "generated",

@@ -12,6 +12,10 @@ cds:
       password: user
       roles:
       - cockpit
+    - name: admin
+      password: admin
+      roles:
+      - admin
 
 ---
 spring:

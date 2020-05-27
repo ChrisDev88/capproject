@@ -1,8 +1,14 @@
 using de.datatrain as db from '../db/data-model-cockpit';
 
-service CockpitService @(requires : 'cockpit') {
+@path:'cockpit'
+service CockpitService @(requires : [ 'cockpit', 'admin' ]) {
     @readonly
-    entity Tiles                       as projection on db.Tiles;
+    entity Tiles                       as projection on db.Tiles excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
 
     @readonly
     entity Notifications               as projection on db.Notifications excluding {

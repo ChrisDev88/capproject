@@ -16,14 +16,3 @@ service BackendService @(requires : 'backend') {
     entity MaterialConditions          as projection on db.MaterialConditions;
     entity MaterialFields              as projection on db.MaterialFields;
 }
-
-
-annotate BackendService.Notifications with @(restrict : [{
-    grant : ['WRITE'],
-    to    : 'backend'
-}, ]);
-
-annotate BackendService.FunctionalLocations with @(restrict : [{
-    grant : ['WRITE'],
-    to    : 'backend'
-}, ]);

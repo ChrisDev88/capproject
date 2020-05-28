@@ -1,9 +1,8 @@
 {
-  "welcomeFile": "/app/index.html",
+  "welcomeFile": "/app/fiori.html",
   "authenticationMethod": "route",
   "logout": {
-    "logoutEndpoint": "/do/logout",
-    "logoutPage": "/app/logout.html"
+    "logoutEndpoint": "/do/logout"
   },
   "routes": [
     {
@@ -12,19 +11,9 @@
       "destination": "srv_api_v2"
     },
     {
-      "source": "/odata/(.*)$",
-      "target": "/odata/$1",
-      "destination": "srv_api"
-    },
-    {
       "source": "/api/(.*)$",
       "target": "/api/$1",
       "destination": "srv_api"
-    },
-    {
-      "source": "^/app/logout.html$",
-      "localDir": "webapp",
-      "authenticationType": "none"
     },
     {
       "source": "^/app/(.*)$",

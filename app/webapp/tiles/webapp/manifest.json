@@ -1,0 +1,107 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "tiles",
+		"type": "application",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"dataSources": {
+			"AdminService": {
+				"uri": "/api/admin/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0"
+				}
+			}
+		},
+		"-sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"-id": "ui5template.smartTemplate",
+			"-version": "1.40.12"
+		}
+	},
+	"sap.ui5": {
+		"dependencies": {
+			"libs": {
+				"sap.fe": {
+					
+				}
+			}
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"uri": "i18n/i18n.properties"
+			},
+			"": {
+				"dataSource": "AdminService",
+				"settings": {
+					"synchronizationMode": "None",
+					"operationMode": "Server",
+					"autoExpandSelect": true,
+					"earlyRequests": true,
+					"groupProperties": {
+						"default": {
+							"submit": "Auto"
+						}
+					}
+				}
+			}
+		},
+		"routing": {
+			"routes": [
+				{
+					"pattern": ":?query:",
+					"name": "Tiles",
+					"target": "Tiles"
+				},
+				{
+					"pattern": "Tiles({key}):?query:",
+					"name": "TileDetails",
+					"target": "TileDetails"
+				}
+			],
+			"targets": {
+				"Tiles": {
+					"type": "Component",
+					"id": "Tiles",
+					"name": "sap.fe.templates.ListReport",
+					"options": {
+						"settings": {
+							"entitySet": "Tiles",
+							"navigation": {
+								"Tiles": {
+									"detail": {
+										"route": "TileDetails"
+									}
+								}
+							}
+						}
+					}
+				},
+				"TileDetails": {
+					"type": "Component",
+					"id": "TileDetails",
+					"name": "sap.fe.templates.ObjectPage",
+					"options": {
+						"settings": {
+							"entitySet": "Tiles"
+						}
+					}
+				}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"fullWidth": false
+	},
+	"sap.fiori": {
+		"registrationIds": [],
+		"archeType": "transactional"
+	}
+}

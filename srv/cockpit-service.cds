@@ -1,9 +1,9 @@
 using de.datatrain as db from '../db/data-model-cockpit';
 
-@path:'cockpit'
-service CockpitService @(requires : [ 'cockpit', 'admin' ]) {
+service CockpitService  @(requires : [ 'cockpit', 'admin' ]) {
+    
     @readonly
-    entity Tiles                       as projection on db.Tiles excluding {
+    entity Tiles                       as projection on db.Tiles  excluding {
         createdBy,
         createdAt,
         modifiedBy,
@@ -40,12 +40,6 @@ service CockpitService @(requires : [ 'cockpit', 'admin' ]) {
     entity MaterialConditions          as projection on db.MaterialConditions;
     entity MaterialFields              as projection on db.MaterialFields;
 }
-
-
-annotate CockpitService.Tiles with @(restrict : [{
-    grant : ['READ'],
-    to    : 'cockpit'
-}, ]);
 
 annotate CockpitService.Notifications with @(restrict : [{
     grant : ['READ'], //  { grant: 'READ', where: 'Workplace = $user.workplace' },

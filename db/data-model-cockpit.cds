@@ -7,8 +7,7 @@ using {
 } from '@sap/cds/common';
 
 
-entity Tiles : managed {
-    key TileId      : String(36);
+entity Tiles : cuid, managed {
         TileName    : localized String(32);
         Description : localized String(255);
         PageId      : String(32);

@@ -65,6 +65,7 @@ modules:
         properties:
           url: "${default-url}"
     requires:
+      - name: cockpitcap-uaa
       - name: srv_api
         properties:
           srv_api_url: ~{url}
@@ -130,7 +131,7 @@ resources:
       service: connectivity
     type: org.cloudfoundry.managed-service
 
-  - name: cockpitcap-mobile-service
+  - name: de.datatrain.cockpit
     parameters:
       service-plan: lite
       service: mobile-services

@@ -8,8 +8,8 @@ using {
 
 
 entity Tiles : cuid, managed {
-        TileName    : localized String(32);
-        Description : localized String(255);
+        TileName    : String(32);
+        Description : String(255);
         PageId      : String(32);
         IconId      : String(20);
         ParentId    : String(36);

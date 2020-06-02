@@ -16,7 +16,7 @@ cds:
       password: admin
       roles:
       - admin
-
+      
 ---
 spring:
   profiles: cloud

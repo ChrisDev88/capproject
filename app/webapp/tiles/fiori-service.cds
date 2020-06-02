@@ -1,28 +1,40 @@
 using AdminService from '../../../srv/admin-service';
 
+annotate AdminService.Tiles with @odata.draft.enabled;
+
+////////////////////////////////////////////////////////////////////////////
+//
+//	Tile Elements
+//
+annotate AdminService.Tiles with {
+	Description @UI.MultiLineText;
+}
+
 annotate AdminService.Tiles with @(
 	UI: {
 		////////////////////////////////////////////////////////////////////////////
 		//
-		//	Lists of Orders
+		//	Lists of Tiles
 		//
 		SelectionFields: [ createdAt, createdBy ],
 		LineItem: [
-			{Value: TileId, Label:'{i18n>TileId}'},
 			{Value: TileName, Label: '{i18n>TileName}' },
 			{Value: Description, Label:'{i18n>TileText}'}
 		],
 		////////////////////////////////////////////////////////////////////////////
 		//
-		//	Order Details
+		//	Tile Details
 		//
 		HeaderInfo: {
-			TypeName: '{i18n>Tile}', TypeNamePlural: '{i18n>Tiles}',
+			TypeName: '{i18n>Tile}', 
+			TypeNamePlural: '{i18n>Tiles}',
 			Title: {
-				Label: '{i18n>TileName}', //A label is possible but it is not considered on the ObjectPage yet
+				Label: '{i18n>TileName}', 
 				Value: TileName
 			},
-			Description: {Value: Description}
+			Description: {
+				Label: '{i18n>TileText}',
+				Value: Description}
 		},
 		Identification: [ //Is the main field group
 			{Value: createdBy, Label:'{i18n>CreatedBy}'},
@@ -38,8 +50,11 @@ annotate AdminService.Tiles with @(
 		],
 		FieldGroup#Details: {
 			Data: [
-				{Value: IconId, Label:'{i18n>IconId}'},
-				{Value: PageId, Label:'{i18n>PageId}'}
+				{Value: IconId, Label:'{i18n>TileIconId}'},
+				{Value: PageId, Label:'{i18n>TilePageId}'},
+				{Value: ParentId, Label:'{i18n>TileParentId}'},
+				{Value: RoleId, Label:'{i18n>TileRoleId}'},
+				{Value: SortId, Label:'{i18n>TileSortId}'}
 			]
 		},
 		FieldGroup#Created: {

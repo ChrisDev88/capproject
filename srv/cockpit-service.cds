@@ -1,9 +1,12 @@
 using de.datatrain as db from '../db/data-model-cockpit';
 
-service CockpitService  @(requires : [ 'cockpit', 'admin' ]) {
-    
+service CockpitService @(requires : [
+'cockpit',
+'admin'
+]) {
+
     @readonly
-    entity Tiles                       as projection on db.Tiles  excluding {
+    entity Tiles                       as projection on db.Tiles excluding {
         createdBy,
         createdAt,
         modifiedBy,
@@ -18,11 +21,28 @@ service CockpitService  @(requires : [ 'cockpit', 'admin' ]) {
         modifiedAt
     };
 
-    entity Objects                     as projection on db.Objects;
-    entity Keys                        as projection on db.Keys;
-    entity KeyNumbers                  as projection on db.KeyNumbers;
+    @readonly
+    entity Objects                     as projection on db.Objects excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
 
-    //{* , ID as Id}
+    entity Keys                        as projection on db.Keys excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity KeyNumbers                  as projection on db.KeyNumbers excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
     entity Meters                      as projection on db.Meters excluding {
         createdBy,
         createdAt,
@@ -30,78 +50,79 @@ service CockpitService  @(requires : [ 'cockpit', 'admin' ]) {
         modifiedAt
     };
 
-    entity MeterReadings               as projection on db.MeterReadings;
-    entity FixturesSet                 as projection on db.FixturesSet;
-    entity FixturesNew                 as projection on db.FixturesNew;
-    entity Contracts                   as projection on db.Contracts;
-    entity FunctionalLocations         as projection on db.FunctionalLocations;
-    entity FunctionalLocationAdditions as projection on db.FunctionalLocationAdditions;
-    entity Materials                   as projection on db.Materials;
-    entity MaterialConditions          as projection on db.MaterialConditions;
-    entity MaterialFields              as projection on db.MaterialFields;
+    entity MeterReadings               as projection on db.MeterReadings excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    @readonly
+    entity FixturesSet                 as projection on db.FixturesSet excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity FixturesNew                 as projection on db.FixturesNew excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity Contracts                   as projection on db.Contracts excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity ContractTerminations        as projection on db.ContractTerminations excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity FunctionalLocations         as projection on db.FunctionalLocations excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity FunctionalLocationAdditions as projection on db.FunctionalLocationAdditions excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity Materials                   as projection on db.Materials excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity MaterialConditions          as projection on db.MaterialConditions excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity MaterialFields              as projection on db.MaterialFields excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
 }
 
 annotate CockpitService.Notifications with @(restrict : [{
     grant : ['READ'], //  { grant: 'READ', where: 'Workplace = $user.workplace' },
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.Objects with @(restrict : [{
-    grant : ['READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.Keys with @(restrict : [{
-    grant : ['WRITE', 'READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.KeyNumbers with @(restrict : [{
-    grant : ['WRITE', 'READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.Meters with @(restrict : [{
-    grant : ['WRITE', 'READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.MeterReadings with @(restrict : [{
-    grant : ['WRITE', 'READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.FixturesSet with @(restrict : [{
-    grant : ['READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.Contracts with @(restrict : [{
-    grant : ['READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.FunctionalLocations with @(restrict : [{
-    grant : ['READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.FunctionalLocationAdditions with @(restrict : [{
-    grant : ['READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.Materials with @(restrict : [{
-    grant : ['WRITE', 'READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.MaterialFields with @(restrict : [{
-    grant : ['WRITE', 'READ'],
-    to    : 'cockpit'
-}, ]);
-
-annotate CockpitService.MaterialConditions with @(restrict : [{
-    grant : ['WRITE', 'READ'],
     to    : 'cockpit'
 }, ]);

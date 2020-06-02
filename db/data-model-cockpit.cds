@@ -8,15 +8,15 @@ using {
 
 
 entity Tiles : cuid, managed {
-        TileName    : String(32);
-        Description : String(255);
-        PageId      : String(32);
-        IconId      : String(20);
-        ParentId    : String(36);
-        SortId      : Integer;
+    TileName    : localized String(32);
+    Description : localized String(255);
+    PageId      : String(32);
+    IconId      : String(20);
+    ParentId    : String(36);
+    RoleId      : String(36);
+    SortId      : Integer;
 }
 
-// @cds.persistence.exists
 entity Notifications : managed {
     key ModuleId               : String(2);
     key NotificationId         : String(12);
@@ -30,7 +30,6 @@ entity Notifications : managed {
         DueDate                : Timestamp;
         CreatedAtDate          : Timestamp;
         ClosedAtDate           : Timestamp;
-        UpdatedAtDate          : Timestamp;
         IsNotificationClosed   : Boolean;
         VendorId               : String(10);
         ObjectId               : String(13);
@@ -100,7 +99,7 @@ entity Keys : cuid, managed {
                               on KeyNumbers.CorrespondingKey = $self;
 }
 
-entity KeyNumbers : cuid {
+entity KeyNumbers : cuid, managed {
     key ObjectId           : String(13);
     key NotificationId     : String(12);
         KeyNumberRequired  : Integer;
@@ -126,7 +125,7 @@ entity Meters : cuid, managed {
                                  on MeterReadings.Meter = $self;
 }
 
-entity MeterReadings : cuid {
+entity MeterReadings : cuid, managed {
     key ObjectId         : String(13);
     key NumeratorId      : String(8);
     key NotificationId   : String(12);
@@ -140,7 +139,7 @@ entity MeterReadings : cuid {
                                and ID       = Meter.ID;
 }
 
-entity FixturesSet {
+entity FixturesSet : managed {
     key ObjectId              : String(13);
     key FixtureId             : String(6);
         AdditionalInformation : Decimal(7, 2);
@@ -149,7 +148,7 @@ entity FixturesSet {
                                     on ObjectId = Object.ObjectId;
 }
 
-entity FixturesNew {
+entity FixturesNew : managed {
     key ObjectId              : String(13);
     key FixtureId             : String(6);
         NotificationId        : String(12);
@@ -163,18 +162,47 @@ entity FixturesNew {
 
 
 entity Contracts : managed {
-    key ContractId        : String(13);
-        CompanyCode       : String(4);
-        ContractNumber    : String(13);
-        ContractStartDate : Date;
-        ContractEndDate   : Date;
-        ContractType      : String(4);
-        ContractTypeName  : String(30);
-        ObjectId          : String(13);
-        Object            : Association to Objects
-                                on ObjectId = Object.ObjectId;
-        Notifications     : Association to many Notifications
-                                on Notifications.Contract = $self;
+    key ContractId         : String(13);
+        CompanyCode        : String(4);
+        ContractNumber     : String(13);
+        ContractNumberFull : String(45);
+        ContractStartDate  : Date;
+        ContractEndDate    : Date;
+        ContractType       : String(4);
+        ContractTypeName   : String(30);
+        ContractStatus     : String(30);
+        ObjectId           : String(13);
+        AccountContract    : Boolean;
+        AccountDebitor     : Boolean;
+        CosmeticRepair     : Boolean;
+        Deposit            : Decimal(13, 2);
+        DepositCurrent     : Decimal(13, 2);
+        RentBalance        : Decimal(13, 2);
+        Guarantor          : String(80);
+
+        Object             : Association to Objects
+                                 on ObjectId = Object.ObjectId;
+        Notifications      : Association to many Notifications
+                                 on Notifications.Contract = $self;
+        Termination        : Composition of one ContractTerminations
+                                 on Termination.Contract = $self;
+}
+
+entity ContractTerminations : managed {
+    key ContractId            : String(13);
+        TerminationDate       : Date;
+        TerminationCalc       : Date;
+        TerminationPer        : Date;
+        TerminationRequest    : Date;
+        TerminationReasonId   : String(2);
+        TerminationReasonName : String(30);
+        TerminationDurch      : String(40);
+        TerminationExtraord   : String(1);
+        TerminationType       : String(40);
+        TerminationSchemaId   : String(4);
+        TerminationSchemaName : String(60);
+        Contract              : Association to Contracts
+                                    on ContractId = Contract.ContractId;
 }
 
 
@@ -203,7 +231,7 @@ entity FunctionalLocations : SAddress, managed {
                                      on Materials.FunctionalLocation = $self;
 }
 
-entity FunctionalLocationAdditions {
+entity FunctionalLocationAdditions : managed {
     key FunctionalLocationId : String(40);
     key Name                 : String(40);
         Value                : String(255);
@@ -211,7 +239,7 @@ entity FunctionalLocationAdditions {
                                    on FunctionalLocationId = FunctionalLocation.FunctionalLocationId;
 }
 
-entity Materials {
+entity Materials : managed {
     key FunctionalLocationId : String(40);
     key MaterialId           : String(18);
     key BomId                : String(40);
@@ -227,7 +255,7 @@ entity Materials {
                                    on Conditions.Material = $self;
 }
 
-entity MaterialConditions {
+entity MaterialConditions : managed {
     key FunctionalLocationId : String(40);
     key MaterialId           : String(18);
     key BomId                : String(40);
@@ -246,7 +274,7 @@ entity MaterialConditions {
                                    and BomId                = Material.BomId;
 }
 
-entity MaterialFields {
+entity MaterialFields : managed {
     key FunctionalLocationId : String(40);
     key MaterialId           : String(18);
     key BomId                : String(40);

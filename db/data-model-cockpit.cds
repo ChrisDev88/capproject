@@ -235,6 +235,8 @@ entity Contracts : managed {
         DepositCurrent     : Decimal(13, 2);
         RentBalance        : Decimal(13, 2);
         Guarantor          : String(80);
+        Partners           : Association to many Contract2Partners
+                                 on Partners.Contract = $self;
         Object             : Association to Objects
                                  on ObjectId = Object.ObjectId;
         Notifications      : Association to many Notifications
@@ -350,6 +352,8 @@ entity Partners : SAddress, SCommunication, managed {
         Name2         : String(40);
         Name3         : String(40);
         Name4         : String(40);
+        Contracts     : Association to many Contract2Partners
+                            on Contracts.Partner = $self;
         Notifications : Association to Notifications
                             on Notifications.Partner = $self;
         NewAddresses  : Composition of many PartnerNewAddresses

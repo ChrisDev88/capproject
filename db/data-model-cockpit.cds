@@ -1,6 +1,9 @@
 namespace de.datatrain;
 
-using {SAddress} from '../db/data-model-custom-types';
+using {
+    SAddress,
+    SCommunication
+} from '../db/data-model-custom-types';
 using {
     cuid,
     managed
@@ -8,8 +11,8 @@ using {
 
 
 entity Tiles : cuid, managed {
-    TileName    : localized String(32);
-    Description : localized String(255);
+    TileName    : String(32);
+    Description : String(255);
     PageId      : String(32);
     IconId      : String(20);
     ParentId    : String(36);
@@ -40,12 +43,65 @@ entity Notifications : managed {
         // StatusId               : String(1);
         // TerminationId          : String(2);
         // TerminationName        : String(30);
-        Object                 : Association to Objects
-                                     on ObjectId = Object.ObjectId;
+        Partner                : Association to one Partners
+                                     on PartnerId = Partner.PartnerId;
         Contract               : Association to Contracts
                                      on ContractId = Contract.ContractId;
+        Object                 : Association to Objects
+                                     on ObjectId = Object.ObjectId;
         FunctionalLocation     : Association to FunctionalLocations
                                      on FunctionalLocationId = FunctionalLocation.FunctionalLocationId;
+        MailOrders             : Composition of many MailOrders
+                                     on  ModuleId       = MailOrders.ModuleId
+                                     and NotificationId = MailOrders.NotificationId;
+        Additions              : Composition of many NotificationnAdditions
+                                     on  ModuleId       = Additions.ModuleId
+                                     and NotificationId = Additions.NotificationId;
+        Tasks                  : Composition of many Tasks
+                                     on  ModuleId       = Tasks.ModuleId
+                                     and NotificationId = Tasks.NotificationId;
+}
+
+entity Tasks : managed {
+    key ModuleId       : String(2);
+    key NotificationId : String(12);
+    key TaskId         : String(4);
+        TaskName       : String(40);
+        SortId         : String(4);
+        CatalogType    : String(1);
+        CodeGroup      : String(8);
+        Code           : String(4);
+        MaterialId     : String(18);
+        BomComponent   : String(18);
+        DoneAtDate     : Timestamp;
+        Status         : String(4);
+        Text           : String;
+        Role           : String(6);
+        DamageStatus   : String(5);
+        Notification   : Association to Notifications
+                             on Notification.Tasks = $self;
+}
+
+entity MailOrders : cuid, managed {
+    ModuleId       : String(2);
+    NotificationId : String(12);
+    PartnerId      : String(10);
+    Email          : String(241);
+    MailOrderType  : String(1);
+    Name1          : String(40);
+    Name2          : String(40);
+    Notification   : Association to Notifications
+                         on Notification.MailOrders = $self;
+}
+
+entity NotificationnAdditions : managed {
+    key ModuleId       : String(2);
+    key NotificationId : String(12);
+    key Name           : String(40);
+        Value          : String(255);
+        Notification   : Association to Notifications
+                             on Notification.Additions = $self;
+
 }
 
 entity Objects : SAddress, managed {
@@ -179,7 +235,6 @@ entity Contracts : managed {
         DepositCurrent     : Decimal(13, 2);
         RentBalance        : Decimal(13, 2);
         Guarantor          : String(80);
-
         Object             : Association to Objects
                                  on ObjectId = Object.ObjectId;
         Notifications      : Association to many Notifications
@@ -285,4 +340,59 @@ entity MaterialFields : managed {
                                    on  FunctionalLocationId = Material.FunctionalLocationId
                                    and MaterialId           = Material.MaterialId
                                    and BomId                = Material.BomId;
+}
+
+entity Partners : SAddress, SCommunication, managed {
+    key PartnerId     : String(10);
+        PartnerType   : String(1);
+        Fullname      : String(80);
+        Name1         : String(40);
+        Name2         : String(40);
+        Name3         : String(40);
+        Name4         : String(40);
+        Notifications : Association to Notifications
+                            on Notifications.Partner = $self;
+        NewAddresses  : Composition of many PartnerNewAddresses
+                            on NewAddresses.Partner = $self;
+        Participants  : Composition of many Participants
+                            on Participants.Partner = $self;
+}
+
+
+entity PartnerNewAddresses : SAddress, SCommunication, managed {
+    key PartnerId            : String(10);
+    key NotificationId       : String(12);
+        UnknownAddress       : Boolean;
+        IsFinisehd           : Boolean;
+        ValidFrom            : Date;
+        NameCo               : String(40);
+        CustomAddress        : String(250);
+        UnknownAddressReason : String(2);
+        Partner              : Association to Partners
+                                   on PartnerId = Partner.PartnerId;
+}
+
+entity Participants : managed {
+    key PartnerId      : String(10);
+    key NotificationId : String(12);
+        Present        : Boolean;
+        Signing        : Boolean;
+        Denial         : Boolean;
+        DenialText     : String;
+        Partner        : Association to Partners
+                             on PartnerId = Partner.PartnerId;
+}
+
+entity Contract2Partners : managed {
+    key ModuleId    : String(2);
+    key ContractId  : String(13);
+    key PartnerId   : String(10);
+    key RoleId      : String(7);
+        RoleName    : String(50);
+        CompanyCode : String(4);
+        SubRoleId   : String(4);
+        Contract    : Association to one Contracts
+                          on ContractId = Contract.ContractId;
+        Partner     : Association to one Partners
+                          on PartnerId = Partner.PartnerId;
 }

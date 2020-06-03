@@ -15,4 +15,8 @@ aspect SAddress {
     Region       : String(3);
 }
 
-
+aspect SCommunication {
+    Phone  : String(30);
+    Mobile : String(30);
+    Email  : String(241);
+}

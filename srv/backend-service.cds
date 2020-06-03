@@ -19,4 +19,8 @@ service BackendService @(requires : [
     entity Materials                   as projection on db.Materials;
     entity MaterialConditions          as projection on db.MaterialConditions;
     entity MaterialFields              as projection on db.MaterialFields;
+    entity Partners                    as projection on db.Partners;
+    entity PartnerNewAddresses         as projection on db.PartnerNewAddresses;
+    entity Participants                as projection on db.Participants;
+    entity Contract2Partners           as projection on db.Contract2Partners;
 }

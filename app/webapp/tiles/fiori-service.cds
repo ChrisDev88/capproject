@@ -1,6 +1,6 @@
 using AdminService from '../../../srv/admin-service';
 
-annotate AdminService.Tiles with @odata.draft.enabled;
+// annotate AdminService.Tiles with @odata.draft.enabled;
 
 ////////////////////////////////////////////////////////////////////////////
 //

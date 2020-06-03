@@ -22,6 +22,30 @@ service CockpitService @(requires : [
     };
 
     @readonly
+    entity Tasks                       as projection on db.Tasks excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    @readonly
+    entity MailOrders                  as projection on db.MailOrders excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    @readonly
+    entity NotificationAdditions       as projection on db.NotificationnAdditions excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    @readonly
     entity Objects                     as projection on db.Objects excluding {
         createdBy,
         createdAt,
@@ -79,6 +103,7 @@ service CockpitService @(requires : [
         modifiedAt
     };
 
+    @readonly
     entity ContractTerminations        as projection on db.ContractTerminations excluding {
         createdBy,
         createdAt,
@@ -86,6 +111,7 @@ service CockpitService @(requires : [
         modifiedAt
     };
 
+    @readonly
     entity FunctionalLocations         as projection on db.FunctionalLocations excluding {
         createdBy,
         createdAt,
@@ -93,6 +119,7 @@ service CockpitService @(requires : [
         modifiedAt
     };
 
+    @readonly
     entity FunctionalLocationAdditions as projection on db.FunctionalLocationAdditions excluding {
         createdBy,
         createdAt,
@@ -120,9 +147,39 @@ service CockpitService @(requires : [
         modifiedBy,
         modifiedAt
     };
+
+    @readonly
+    entity Partners                    as projection on db.Partners excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity PartnerNewAddresses         as projection on db.PartnerNewAddresses excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    entity Participants                as projection on db.Participants excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
+
+    @readonly
+    entity Contract2Partners           as projection on db.Contract2Partners excluding {
+        createdBy,
+        createdAt,
+        modifiedBy,
+        modifiedAt
+    };
 }
 
-annotate CockpitService.Notifications with @(restrict : [{
-    grant : ['READ'], //  { grant: 'READ', where: 'Workplace = $user.workplace' },
-    to    : 'cockpit'
-}, ]);
+// annotate CockpitService.Notifications with @(restrict : [{
+//     grant : ['READ'], //  { grant: 'READ', where: 'Workplace = $user.workplace' },
+//     to    : 'cockpit'
+// }, ]);
